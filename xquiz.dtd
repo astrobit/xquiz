@@ -1,0 +1,56 @@
+<!-- This is the reference data for a quiz as used by xquiz. The official DTD is currently stored at https://www.as.utexas.edu/~bwmulligan/xquiz.dtd -->
+
+<!ELEMENT quiz (title, date, instructions, bank?, bankref?, questions?)>
+<!ELEMENT date (#PCDATA)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT instructions (#PCDATA)>
+<!ELEMENT questions (qref)+ >
+<!ELEMENT qref EMPTY >
+<!ELEMENT bank (question)+ >
+<!ELEMENT bankref EMPTY >
+<!ELEMENT question (prompt, choices*, note?)>
+<!ELEMENT prompt (#PCDATA)>
+<!ELEMENT choices (choice+ , choiceall? , choicesome*, choicenone?)>
+<!ELEMENT choice (#PCDATA)>
+<!ELEMENT choicenone EMPTY>
+<!ELEMENT choiceall EMPTY>
+<!ELEMENT choicesome EMPTY>
+<!ELEMENT note (#PCDATA)>
+<!ENTITY % boolean "(true | false)">
+<!ATTLIST qref
+	id CDATA #REQUIRED
+>
+<!ATTLIST bankref
+	file CDATA #REQUIRED
+>
+
+<!ATTLIST question
+	id	ID	#REQUIRED
+	format	(mc | fb)	"mc"
+	keys CDATA #IMPLIED
+>
+
+<!ATTLIST choices
+	scramble %boolean; "false"
+>
+<!ATTLIST choice
+	id	ID #REQUIRED
+	scramble %boolean; "true"
+	correct %boolean; "false"
+>
+	
+<!ATTLIST choicenone
+	id	ID #REQUIRED
+	correct %boolean; "false"
+>
+	
+<!ATTLIST choiceall
+	id	ID #REQUIRED
+	correct %boolean; "false"
+>
+
+<!ATTLIST choicesome
+	id	ID #REQUIRED
+	correct %boolean; "false"
+	refs CDATA #REQUIRED
+>	
