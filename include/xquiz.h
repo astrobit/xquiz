@@ -5,6 +5,16 @@
 #include <map>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
+#if defined (_WIN32) || defined (_WIN64)
+#ifdef _USRDLL
+#define PUBEXP _declspec(dllexport)
+#else
+#define PUBEXP _declspec(dllimport)
+#endif
+#else
+#define PUBEXP
+#endif
+
 
 namespace xquiz
 {
@@ -17,15 +27,15 @@ namespace xquiz
 		std::string sText;
 		bool bIs_Scramblable;
 
-		virtual void Read_XML(xmlNode * i_lpRoot_Element);
+		PUBEXP virtual void Read_XML(xmlNode * i_lpRoot_Element);
 
-		answer(void)
+		PUBEXP answer(void)
 		{
 			bCorrect = false;
 			bIs_Scramblable = true;
 		}
 
-		answer(xmlNode * i_lpRoot_Element)
+		PUBEXP answer(xmlNode * i_lpRoot_Element)
 		{
 			bCorrect = false;
 			bIs_Scramblable = true;
@@ -35,13 +45,13 @@ namespace xquiz
 	class answer_none : public answer
 	{
 	public:
-		void Read_XML(xmlNode * i_lpRoot_Element);
-		answer_none(void)
+		PUBEXP void Read_XML(xmlNode * i_lpRoot_Element);
+		PUBEXP answer_none(void)
 		{
 			bCorrect = false;
 			bIs_Scramblable = false;
 		}
-		answer_none(xmlNode * i_lpRoot_Element)
+		PUBEXP answer_none(xmlNode * i_lpRoot_Element)
 		{
 			bCorrect = false;
 			bIs_Scramblable = false;
@@ -51,13 +61,13 @@ namespace xquiz
 	class answer_all : public answer
 	{
 	public:
-		void Read_XML(xmlNode * i_lpRoot_Element);
-		answer_all(void)
+		PUBEXP void Read_XML(xmlNode * i_lpRoot_Element);
+		PUBEXP answer_all(void)
 		{
 			bCorrect = false;
 			bIs_Scramblable = false;
 		}
-		answer_all(xmlNode * i_lpRoot_Element)
+		PUBEXP answer_all(xmlNode * i_lpRoot_Element)
 		{
 			bCorrect = false;
 			bIs_Scramblable = false;
@@ -67,13 +77,13 @@ namespace xquiz
 	class answer_some : public answer
 	{
 	public:
-		void Read_XML(xmlNode * i_lpRoot_Element);
-		answer_some(void)
+		PUBEXP void Read_XML(xmlNode * i_lpRoot_Element);
+		PUBEXP answer_some(void)
 		{
 			bCorrect = false;
 			bIs_Scramblable = false;
 		}
-		answer_some(xmlNode * i_lpRoot_Element)
+		PUBEXP answer_some(xmlNode * i_lpRoot_Element)
 		{
 			bCorrect = false;
 			bIs_Scramblable = false;
@@ -112,42 +122,42 @@ namespace xquiz
 		}
 		void parse_keys(std::string i_sKeys);
 	public:
-		void Read_XML(xmlNode * i_lpRoot_Element);
-		std::vector<std::string> get_keys(void) const{return vKeys;}
-		std::vector<std::string>::const_iterator keys_begin(void) const {return vKeys.cbegin();}
-		std::vector<std::string>::const_iterator keys_end(void) const {return vKeys.cend();}
+		PUBEXP void Read_XML(xmlNode * i_lpRoot_Element);
+		PUBEXP std::vector<std::string> get_keys(void) const{return vKeys;}
+		PUBEXP std::vector<std::string>::const_iterator keys_begin(void) const {return vKeys.cbegin();}
+		PUBEXP std::vector<std::string>::const_iterator keys_end(void) const {return vKeys.cend();}
 
 	
 
-		question & operator =(const question & i_cRHO)
+		PUBEXP question & operator =(const question & i_cRHO)
 		{
 			Copy(i_cRHO);
 			return *this;
 		}
-		question(xmlNode * i_lpRoot_Element)
+		PUBEXP question(xmlNode * i_lpRoot_Element)
 		{
 			vaAnswers.clear();
 			mAnswers.clear();
 			bScramble_Answers = false;
 			Read_XML(i_lpRoot_Element);
 		}
-		question(void)
+		PUBEXP question(void)
 		{
 			vaAnswers.clear();
 			mAnswers.clear();
 			bScramble_Answers = false;
 		}
-		question(const question & i_cRHO)
+		PUBEXP question(const question & i_cRHO)
 		{
 			Copy(i_cRHO);
 		}
 
-		void add_answer(const answer & i_cAnswer)
+		PUBEXP void add_answer(const answer & i_cAnswer)
 		{
 			mAnswers[i_cAnswer.sID] = vaAnswers.size();
 			vaAnswers.push_back(i_cAnswer);
 		}
-		answer find_answer(std::string sID) const
+		PUBEXP answer find_answer(std::string sID) const
 		{
 			answer cRet;
 			if (mAnswers.count(sID) == 1)
@@ -157,11 +167,11 @@ namespace xquiz
 			}
 			return cRet;
 		}
-		size_t num_answers(void)
+		PUBEXP size_t num_answers(void)
 		{
 			return vaAnswers.size();
 		}
-		answer get_answer(size_t i_tIdx) const
+		PUBEXP answer get_answer(size_t i_tIdx) const
 		{
 			answer cRet;
 			if (i_tIdx < vaAnswers.size())
@@ -169,7 +179,7 @@ namespace xquiz
 			return cRet;
 		}
 
-		void Parse_XML(xmlNode * i_lpRoot_Element);
+		PUBEXP void Parse_XML(xmlNode * i_lpRoot_Element);
 
 	};
 
@@ -189,40 +199,41 @@ namespace xquiz
 		}
 	public:
 		typedef std::map<std::string,question>::const_iterator qiter;
-		qiter begin(void) const { return vQuestion_Bank.cbegin();}
-		qiter end(void) const { return vQuestion_Bank.cend();}
+		PUBEXP qiter begin(void) const { return vQuestion_Bank.cbegin();}
+		PUBEXP qiter end(void) const { return vQuestion_Bank.cend();}
 
 	public:
-		void Read_XML(xmlNode * i_lpRoot_Element);
-		bank(xmlNode * i_lpRoot_Element)
+		PUBEXP void Read_XML(xmlNode * i_lpRoot_Element);
+		PUBEXP bank(xmlNode * i_lpRoot_Element)
 		{
 			Read_XML(i_lpRoot_Element);
 		}
 
-		bank(void)
+		PUBEXP bank(void)
 		{
 			vQuestion_Bank.clear();
 		}
-		bank(const bank & i_cRHO)
+		PUBEXP bank(const bank & i_cRHO)
 		{
 			Copy(i_cRHO);
 		}
-		bank & operator	=(const bank & i_cRHO)
+		PUBEXP bank & operator	=(const bank & i_cRHO)
 		{
 			Copy(i_cRHO);
+			return *this;
 		}
-		void add(const question & i_cQuestion)
+		PUBEXP void add(const question & i_cQuestion)
 		{
 			vQuestion_Bank[i_cQuestion.sID] = i_cQuestion;
 		}
-		question get(const std::string &i_sID) const
+		PUBEXP question get(const std::string &i_sID) const
 		{
 			question cRet;
 			if (vQuestion_Bank.count(i_sID) == 1)
 				cRet = vQuestion_Bank.at(i_sID);
 			return cRet;
 		}
-		bank& operator +=(const bank & i_RHO)
+		PUBEXP bank& operator +=(const bank & i_RHO)
 		{
 			for (auto iterI = i_RHO.vQuestion_Bank.begin(); iterI != i_RHO.vQuestion_Bank.end(); iterI++)
 			{
@@ -230,19 +241,20 @@ namespace xquiz
 			}
 			return *this;
 		}
-		bank operator +(const bank & i_cRHO) const
+		PUBEXP bank operator +(const bank & i_cRHO) const
 		{
 			bank cRet(*this);
 			cRet += i_cRHO;
+			return cRet;
 		}
-		bool question_exists(const std::string & i_sID) const
+		PUBEXP bool question_exists(const std::string & i_sID) const
 		{
 			bool bRet = (vQuestion_Bank.count(i_sID) == 1);
 			return bRet;
 		}
-		size_t size(void) {return vQuestion_Bank.size();}
+		PUBEXP size_t size(void) {return vQuestion_Bank.size();}
 
-		void Parse_XML(xmlNode * i_lpRoot_Element);
+		PUBEXP void Parse_XML(xmlNode * i_lpRoot_Element);
 	};
 
 	class quiz
@@ -257,8 +269,8 @@ namespace xquiz
 		bank		cBank;
 		std::vector <std::string> vsQuestion_IDs;
 
-		void Parse_XML(xmlNode * i_lpRoot_Element);
-		void Validate_Questions(void);
+		PUBEXP void Parse_XML(xmlNode * i_lpRoot_Element);
+		PUBEXP void Validate_Questions(void);
 
 		quiz(void)
 		{
@@ -280,9 +292,9 @@ namespace xquiz
 	{
 	public:
 		std::vector<question_instance> vQuestions;
-		quiz_instance(void){;}
-		quiz_instance(const quiz & i_cQuiz, bool i_bScramble_Questions, bool i_bScramble_Answers) {Generate_Instance(i_cQuiz,i_bScramble_Questions,i_bScramble_Answers);}
-		void Generate_Instance(const quiz & i_cQuiz, bool i_bScramble_Questions, bool i_bScramble_Answers);
+		PUBEXP quiz_instance(void){;}
+		PUBEXP quiz_instance(const quiz & i_cQuiz, bool i_bScramble_Questions, bool i_bScramble_Answers) {Generate_Instance(i_cQuiz,i_bScramble_Questions,i_bScramble_Answers);}
+		PUBEXP void Generate_Instance(const quiz & i_cQuiz, bool i_bScramble_Questions, bool i_bScramble_Answers);
 	};
 };
 
