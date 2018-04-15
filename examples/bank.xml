@@ -1,0 +1,74 @@
+﻿<?xml version="1.0"?>
+<!DOCTYPE bank PUBLIC "-//B.W.Mulligan//DTD Quiz v1.0//EN" "http://www.as.utexas.edu/~bwmulligan/xquiz-bank.dtd">
+<bank>
+
+<question id="q1" format="mc" keys="key1,key2,key3,key4">
+	<prompt> This is a simple multiple choice question with five answers that are scrambled. </prompt>
+	<choices scramble="true">
+		<choice id="a1.a"> An Answer 1. </choice>
+		<choice id="a1.b"> An Answer 2. </choice>
+		<choice id="a1.c"> An Answer 3. </choice>
+		<choice id="a1.d" correct="true"> An Answer 4. </choice>
+		<choice id="a1.e"> An Answer 5. </choice>
+	</choices>
+	<note> Use notes to provide optional text as part of the solutions. This note references Answer 2 (\ref{a2.b}) </note>
+</question>
+
+<question id="q2" format="mc" keys="key1,key2,key3">
+	<prompt> This is a simple multiple choice question with five answers that are not scrambled. </prompt>
+	<choices scramble="false">
+		<choice id="a2.a"> An Answer 1. </choice>
+		<choice id="a2.b"> An Answer 2. </choice>
+		<choice id="a2.c"> An Answer 3. </choice>
+		<choice id="a2.d" correct="true"> An Answer 4. </choice>
+		<choice id="a2.e"> An Answer 5. </choice>
+	</choices>
+	<note> Use notes to provide optional text as part of the solutions. </note>
+</question>
+
+<question id="q3" format="mc" keys="key1,key2,key4">
+	<prompt> This is a simple multiple choice question with four answers that are scrambled and one (An Answer 5.) that always appears last. </prompt>
+	<choices scramble="true">
+		<choice id="a3.a"> An Answer 1. </choice>
+		<choice id="a3.b"> An Answer 2. </choice>
+		<choice id="a3.c"> An Answer 3. </choice>
+		<choice id="a3.d" correct="true"> An Answer 4. </choice>
+		<choice id="a3.e" scramble="false"> An Answer 5. </choice>
+	</choices>
+	<note> Use notes to provide optional text as part of the solutions. </note>
+</question>
+
+<question id="q4" format="mc" keys="key1,key3,key4">
+	<prompt> This is a simple multiple choice question with four answers that are scrambled, ``All of the Above'' and ``None of the Above''. </prompt>
+	<choices scramble="true">
+		<choice id="a4.a"> An Answer 1. </choice>
+		<choice id="a4.b"> An Answer 2. </choice>
+		<choice id="a4.c"> An Answer 3. </choice>
+		<choiceall id="a4.d"/>
+		<choicenone id="a4.e"/>
+	</choices>
+	<note> Use notes to provide optional text as part of the solutions. </note>
+</question>
+
+<question id="q5" format="mc" keys="key1,key3,key4">
+	<prompt> This is a simple multiple choice question with four answers that are scrambled, ``All of the Above'' and (An Answer 1) and (An Answer 2). </prompt>
+	<choices scramble="true">
+		<choice id="a5.a"> An Answer 1. </choice>
+		<choice id="a5.b"> An Answer 2. </choice>
+		<choice id="a5.c"> An Answer 3. </choice>
+		<choiceall id="a5.d"/>
+		<choicesome id="a5.e" refs="a5.a,a5.b"/>
+	</choices>
+	<note> Use notes to provide optional text as part of the solutions. </note>
+</question>
+
+<question id="q5" format="mc" keys="key3,key4">
+	<prompt> This question suggests the answers fill in a blank \fillin. </prompt>
+	<choices scramble="true">
+		<choice id="a5.a"> An Answer 1. </choice>
+		<choice id="a5.b"> An Answer 2. </choice>
+		<choice id="a5.c"> An Answer 3. </choice>
+	</choices>
+	<note> Use notes to provide optional text as part of the solutions. </note>
+</question>
+</bank>

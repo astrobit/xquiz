@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE quiz PUBLIC "-//B.W.Mulligan//DTD Quiz v1.0//EN" "http://www.as.utexas.edu/~bwmulligan/xquiz.dtd">
+<quiz>
+<title> Quiz Number 1\\\vspace{2cm} Form &#37;c </title>
+<date>15~April~2018</date>
+<instructions> Read each question and answer carefully. </instructions>
+<bankref file="bank.xml"/>
+
+<questions>
+<qref id="q1"/>
+<qref id="q2"/>
+<qref id="q3"/>
+<qref id="q4"/>
+<qref id="q5"/>
+</questions>
+</quiz>
