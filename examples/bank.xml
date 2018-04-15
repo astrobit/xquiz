@@ -62,12 +62,12 @@
 	<note> Use notes to provide optional text as part of the solutions. </note>
 </question>
 
-<question id="q5" format="mc" keys="key3,key4">
+<question id="q6" format="mc" keys="key3,key4">
 	<prompt> This question suggests the answers fill in a blank \fillin. </prompt>
 	<choices scramble="true">
-		<choice id="a5.a"> An Answer 1. </choice>
-		<choice id="a5.b"> An Answer 2. </choice>
-		<choice id="a5.c"> An Answer 3. </choice>
+		<choice id="a6.a"> An Answer 1. </choice>
+		<choice id="a6.b"> An Answer 2. </choice>
+		<choice id="a6.c"> An Answer 3. </choice>
 	</choices>
 	<note> Use notes to provide optional text as part of the solutions. </note>
 </question>
