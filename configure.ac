@@ -27,7 +27,7 @@ AC_LANG(C++)
 
 AC_PROG_CXX
 
-AX_CXX_COMPILE_STDCXX(11,noext,mandatory) #use c++11 standard, required in a variety of places
+#AX_CXX_COMPILE_STDCXX(11,noext,mandatory) #use c++11 standard, required in a variety of places
 
 AX_PTHREAD #needed for anything using EngineMk1
 PKG_CHECK_MODULES([xml2],[libxml-2.0],[],[AC_MSG_ERROR([" Could not find libxml2 development package"])])
