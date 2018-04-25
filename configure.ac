@@ -1,7 +1,7 @@
 # Release version
 m4_define([package_version_major],[1])
 m4_define([package_version_minor],[0])
-m4_define([package_version_micro],[1])
+m4_define([package_version_micro],[2])
 m4_define([package_repository],[https://github.com/astrobit/xquiz])
 m4_define([package_auth_email],[bwmulligan@astronaos.com])
 
@@ -16,8 +16,8 @@ LT_INIT
 PKG_PROG_PKG_CONFIG
 PKG_INSTALLDIR
 
-MOD_PROG_ENVMOD
-MOD_INSTALLDIR
+#MOD_PROG_ENVMOD
+#MOD_INSTALLDIR
 
 AM_INIT_AUTOMAKE
 
@@ -30,6 +30,10 @@ AC_PROG_CXX
 #AX_CXX_COMPILE_STDCXX(11,noext,mandatory) #use c++11 standard, required in a variety of places
 
 #AX_PTHREAD #needed for anything using EngineMk1
+#include <libxml/parser.h>
+#include <libxml/tree.h>
+#AC_CHECK_HEADER(/usr/include/libxml2/libxml/parser.h, AC_SUBST([xml2_CFLAGS],-I/usr/include/libxml2), AC_MSG_ERROR([could not find xml2 parser.h]))
+#AC_CHECK_LIB(xml2, htmlParseFile,AC_SUBST([xml2_LIBS],-lxml2) , AC_MSG_ERROR([could not find libxml2 with html parsing]))
 PKG_CHECK_MODULES([xml2],[libxml-2.0],[],[AC_MSG_ERROR([" Could not find libxml2 development package"])])
 
 

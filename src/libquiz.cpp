@@ -1,5 +1,6 @@
 #include <xquiz.h>
 #include <sstream>
+#include <iostream>
 using namespace xquiz;
 
 namespace xquiz_xml
@@ -110,6 +111,7 @@ void answer_some::Read_XML(xmlNode * i_lpRoot_Element)
 	{
 		xmlAttr * lpCurr_Attr = i_lpRoot_Element->properties;
 		std::string sRefs;
+		szConjuction = "and";
 		while (lpCurr_Attr)
 		{
 			if (strcmp((char *)lpCurr_Attr->name,"id") == 0)
@@ -124,6 +126,15 @@ void answer_some::Read_XML(xmlNode * i_lpRoot_Element)
 			{
 				sRefs = xquiz_xml::Attr_Get_String(lpCurr_Attr);
 			}
+			else if (strcmp((char *)lpCurr_Attr->name,"conjunction") == 0)
+			{
+				std::string sConjuction_Lcl = xquiz_xml::Attr_Get_String(lpCurr_Attr);
+				if (sConjuction_Lcl == "or")
+					szConjuction = "or";
+				else if (sConjuction_Lcl == "andor")
+					szConjuction = "and/or";
+			}
+
 			lpCurr_Attr = lpCurr_Attr->next;
 		}
 		std::vector<std::string> vRefs;
@@ -152,7 +163,7 @@ void answer_some::Read_XML(xmlNode * i_lpRoot_Element)
 			if (tI > 0 && tI != (vRefs.size() - 1))
 				ossText << ",";
 			else if (tI == (vRefs.size() - 1))
-				ossText << " and";
+				ossText << " " << szConjuction;
 			ossText << " \\ref{" << vRefs[tI] << "}";
 		}
 		sText = ossText.str();
@@ -219,6 +230,7 @@ void question::Read_XML(xmlNode * i_lpRoot_Element)
 				{
 					xmlNode * lpCurr_Choice_Node = lpCurr_Node->children;
 					xmlAttr * lpCurr_Attr = lpCurr_Node->properties;
+					bool bCorrect_Answer = false;
 					while (lpCurr_Attr)
 					{
 						if (strcmp((char *)lpCurr_Attr->name,"scramble") == 0)
@@ -234,24 +246,34 @@ void question::Read_XML(xmlNode * i_lpRoot_Element)
 						case XML_ELEMENT_NODE:
 							if (strcmp((char *)lpCurr_Choice_Node->name,"choice") == 0)
 							{
-								add_answer(answer(lpCurr_Choice_Node));
+								answer cAnswer(lpCurr_Choice_Node);
+								bCorrect_Answer |= cAnswer.bCorrect;
+								add_answer(cAnswer);
 							}
 							else if (strcmp((char *)lpCurr_Choice_Node->name,"choicenone") == 0)
 							{
-								add_answer(answer_none(lpCurr_Choice_Node));
+								answer_none cAnswer(lpCurr_Choice_Node);
+								bCorrect_Answer |= cAnswer.bCorrect;
+								add_answer(cAnswer);
 							}
 							else if (strcmp((char *)lpCurr_Choice_Node->name,"choiceall") == 0)
 							{
-								add_answer(answer_all(lpCurr_Choice_Node));
+								answer_all cAnswer(lpCurr_Choice_Node);
+								bCorrect_Answer |= cAnswer.bCorrect;
+								add_answer(cAnswer);
 							}
 							else if (strcmp((char *)lpCurr_Choice_Node->name,"choicesome") == 0)
 							{
-								add_answer(answer_some(lpCurr_Choice_Node));
+								answer_some cAnswer(lpCurr_Choice_Node);
+								bCorrect_Answer |= cAnswer.bCorrect;
+								add_answer(cAnswer);
 							}
 							break;
 						} // switch choices child type
 						lpCurr_Choice_Node = lpCurr_Choice_Node->next;
 					} // while choices children
+					if (!bCorrect_Answer)
+						std::cerr << "Warning: no correct answer listed for " << sID << std::endl;
 				} // if choices
 				break;
 			} // switch question child type

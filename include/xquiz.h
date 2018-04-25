@@ -77,16 +77,20 @@ namespace xquiz
 	class answer_some : public answer
 	{
 	public:
+		std::string	szConjuction;
+
 		PUBEXP void Read_XML(xmlNode * i_lpRoot_Element);
 		PUBEXP answer_some(void)
 		{
 			bCorrect = false;
 			bIs_Scramblable = false;
+			szConjuction = "and";
 		}
 		PUBEXP answer_some(xmlNode * i_lpRoot_Element)
 		{
 			bCorrect = false;
 			bIs_Scramblable = false;
+			szConjuction = "and";
 			Read_XML(i_lpRoot_Element);
 		}
 	};
