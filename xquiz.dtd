@@ -1,4 +1,8 @@
 <!-- This is the reference data for a quiz as used by xquiz. The official DTD is currently stored at https://www.as.utexas.edu/~bwmulligan/xquiz.dtd -->
+<!-- DTD version 1.1 -->
+<!-- version history -->
+<!-- 1.0: first version-->
+<!-- 1.1: added "conjunction" attribute to choicesome-->
 
 <!ELEMENT quiz (title, date, instructions, bank?, bankref?, questions?)>
 <!ELEMENT date (#PCDATA)>
@@ -53,4 +57,5 @@
 	id	ID #REQUIRED
 	correct %boolean; "false"
 	refs CDATA #REQUIRED
+	conjunction (and | or | andor) "and"
 >	
