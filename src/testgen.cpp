@@ -7,7 +7,7 @@
 #include <xquiz.h>
 using namespace xquiz;
 
-void Write_Form(const char * lpszFile,char chForm,const quiz & i_cQuiz, const quiz_instance & i_cInstance, bool i_bWrite_Notes )
+void Write_Form(const char * lpszFile,char chForm,const quiz & i_cQuiz, const quiz_instance & i_cInstance, bool i_bWrite_Notes, bool i_bWrite_QID )
 {
 	if (lpszFile != nullptr)
 	{
@@ -71,9 +71,17 @@ void Write_Form(const char * lpszFile,char chForm,const quiz & i_cQuiz, const qu
 					tLine_Count_Solutions += tNum_Lines_Question + tLine_Count_Note;
 				
 				
-
-				fprintf(fileOut,"\\question %s\n\\begin{choices}\n",cQuest.sPrompt.c_str());
-				fprintf(fileSolutions,"\\question %s\n\\begin{choices}\n",cQuest.sPrompt.c_str());
+				fprintf(fileOut,"\\question");
+				fprintf(fileSolutions,"\\question");
+				fprintf(fileOut,"\\label{%s} ",iterI->sID.c_str());
+				fprintf(fileSolutions,"\\label{%s} ",iterI->sID.c_str());
+				if (i_bWrite_QID)
+				{
+					fprintf(fileOut,"(%s)",iterI->sID.c_str());
+					fprintf(fileSolutions,"(%s)",iterI->sID.c_str());
+				}
+				fprintf(fileOut," %s\n\\begin{choices}\n",cQuest.sPrompt.c_str());
+				fprintf(fileSolutions," %s\n\\begin{choices}\n",cQuest.sPrompt.c_str());
 				char chLetter = 'a';
 				for (auto iterJ = iterI->sAnswer_IDs.begin();iterJ != iterI->sAnswer_IDs.end(); iterJ++)
 				{
@@ -133,6 +141,7 @@ void Print_Options(FILE * file, const char * i_lpszCommand)
 	fprintf(file,"\t-nsa, --no-scramble-answers: don't scramble answers for each question.\n");
 	fprintf(file,"\t--shownotes: display notes (if available) in solution for each question.\n");
 	fprintf(file,"\t-g, --no-gen, --dont-run-makefile: don't run the makefile.\n");
+	fprintf(file,"\t--qid: show question ID for each question.\n");
 }
 int main(int i_iArg_Count, const char * i_lpszArg_Values[])
 {
@@ -144,6 +153,7 @@ int main(int i_iArg_Count, const char * i_lpszArg_Values[])
 	bool bOverwrite_Makfile = false;
 	bool bDont_Overwrite_Makefile = false;
 	bool bDont_Run_Makefile = false;
+	bool bShow_Question_ID = false;
 	size_t tNum_Forms = 0;
 
 	for (size_t tI = 1; tI < i_iArg_Count; tI++)
@@ -172,6 +182,8 @@ int main(int i_iArg_Count, const char * i_lpszArg_Values[])
 				bDont_Run_Makefile = true;
 			else if (strcmp(i_lpszArg_Values[tI],"-g") == 0)
 				bDont_Run_Makefile = true;
+			else if (strcmp(i_lpszArg_Values[tI],"--qid") == 0)
+				bShow_Question_ID = true;
 			else if (strncmp(i_lpszArg_Values[tI],"--num",5) == 0 || strncmp(i_lpszArg_Values[tI],"-n",2) == 0)
 			{
 				if (i_lpszArg_Values[tI][2] == '=')
@@ -343,7 +355,7 @@ int main(int i_iArg_Count, const char * i_lpszArg_Values[])
 			char chForm = 'A' + tI;
 			mapInstances[tI] = quiz_instance(cQuiz,bScramble_Questions,bScramble_Answers);
 
-			Write_Form(lpszFilename_Root,chForm,cQuiz,mapInstances[tI],bInclude_Notes);
+			Write_Form(lpszFilename_Root,chForm,cQuiz,mapInstances[tI],bInclude_Notes,bShow_Question_ID);
 		}
 		char lpszCorrelation_File_Path[256];
 		sprintf(lpszCorrelation_File_Path,"%s_Question_Correlation.csv",lpszFilename_Root);
@@ -380,7 +392,7 @@ int main(int i_iArg_Count, const char * i_lpszArg_Values[])
 						if (mapInstances[tJ].vQuestions[tK].sID == mapInstances[0].vQuestions[tI].sID)
 						{
 							bFound = true;
-							fprintf(fileCorrelation,", %i",tI + 1);
+							fprintf(fileCorrelation,", %i",tK + 1);
 							for (size_t tL = 0; tL < 5; tL++)
 							{
 								fprintf(fileCorrelation,", ");
