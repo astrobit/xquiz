@@ -38,7 +38,7 @@ void Write_Form(const char * lpszFile,char chForm,const quiz & i_cQuiz, const qu
 			fprintf(fileKey,"\\documentclass{article}\n\\usepackage{fullpage}\n\n\\begin{document}\n\\title{\\LARGE");
 			fprintf(fileKey,i_cQuiz.sTitle.c_str(),chForm);
 			fprintf(fileKey,"}\n\\date{%s}\n\\maketitle\n",i_cQuiz.sDate.c_str());
-			fprintf(fileKey,"\\begin{enumerate}\n",i_cQuiz.sDate.c_str());
+			fprintf(fileKey, "\\begin{enumerate}\n");
 
 
 			for (auto iterI = i_cInstance.vQuestions.begin(); iterI != i_cInstance.vQuestions.end(); iterI++)
@@ -352,7 +352,7 @@ int main(int i_iArg_Count, const char * i_lpszArg_Values[])
 		std::map<size_t, quiz_instance> mapInstances;
 		for (size_t tI = 0; tI < tNum; tI++)
 		{
-			char chForm = 'A' + tI;
+			char chForm = (char)('A' + tI);
 			mapInstances[tI] = quiz_instance(cQuiz,bScramble_Questions,bScramble_Answers);
 
 			Write_Form(lpszFilename_Root,chForm,cQuiz,mapInstances[tI],bInclude_Notes,bShow_Question_ID);
@@ -365,18 +365,18 @@ int main(int i_iArg_Count, const char * i_lpszArg_Values[])
 			fprintf(fileCorrelation,"Question ID");
 			for (size_t tJ = 0; tJ < tNum; tJ++)
 			{
-				char chForm = 'A' + tJ;
+				char chForm = (char)('A' + tJ);
 				fprintf(fileCorrelation,", Form %c Question #",chForm);
 				for (size_t tK = 0; tK < 5; tK++)
 				{
-					char chChoice = 'a' + tK;
+					char chChoice = (char)('a' + tK);
 					fprintf(fileCorrelation,", Form %c Question Choice %c",chForm,chChoice);
 				}
 			}
 			fprintf(fileCorrelation,", Prompt");
 			for (size_t tK = 0; tK < 5; tK++)
 			{
-				char chChoice = 'a' + tK;
+				char chChoice = (char)('a' + tK);
 				fprintf(fileCorrelation,", Choice %c ID, Choice %c text",chChoice,chChoice);
 			}
 			fprintf(fileCorrelation,"\n");
@@ -392,7 +392,7 @@ int main(int i_iArg_Count, const char * i_lpszArg_Values[])
 						if (mapInstances[tJ].vQuestions[tK].sID == mapInstances[0].vQuestions[tI].sID)
 						{
 							bFound = true;
-							fprintf(fileCorrelation,", %i",tK + 1);
+							fprintf(fileCorrelation,", %zi",tK + 1);
 							for (size_t tL = 0; tL < 5; tL++)
 							{
 								fprintf(fileCorrelation,", ");
@@ -498,7 +498,7 @@ int main(int i_iArg_Count, const char * i_lpszArg_Values[])
 					fprintf(fileMakefile,"all:");
 					for (size_t tI = 0; tI < tNum; tI++)
 					{
-						char chForm = 'A' + tI;
+						char chForm = (char)('A' + tI);
 						fprintf(fileMakefile," %s_%c.pdf",lpszFilename_Root,chForm);
 						fprintf(fileMakefile," %s_%c_Key.pdf",lpszFilename_Root,chForm);
 						fprintf(fileMakefile," %s_%c_Solutions.pdf",lpszFilename_Root,chForm);
@@ -507,25 +507,25 @@ int main(int i_iArg_Count, const char * i_lpszArg_Values[])
 
 					for (size_t tI = 0; tI < tNum; tI++)
 					{
-						char chForm = 'A' + tI;
+						char chForm = (char)('A' + tI);
 						fprintf(fileMakefile,"%s_%c.pdf: ",lpszFilename_Root,chForm);
 						fprintf(fileMakefile,"%s_%c.tex\n",lpszFilename_Root,chForm);
 						fprintf(fileMakefile,"\tpdflatex %s_%c.tex\n",lpszFilename_Root,chForm);
 						fprintf(fileMakefile,"\tpdflatex %s_%c.tex\n",lpszFilename_Root,chForm);
 						fprintf(fileMakefile,"\tpdflatex %s_%c.tex\n",lpszFilename_Root,chForm);
-						fprintf(fileMakefile,"\n",lpszFilename_Root,chForm);
+						fprintf(fileMakefile, "\n");
 						fprintf(fileMakefile,"%s_%c_Key.pdf: ",lpszFilename_Root,chForm);
 						fprintf(fileMakefile,"%s_%c_Key.tex\n",lpszFilename_Root,chForm);
 						fprintf(fileMakefile,"\tpdflatex %s_%c_Key.tex\n",lpszFilename_Root,chForm);
 						fprintf(fileMakefile,"\tpdflatex %s_%c_Key.tex\n",lpszFilename_Root,chForm);
 						fprintf(fileMakefile,"\tpdflatex %s_%c_Key.tex\n",lpszFilename_Root,chForm);
-						fprintf(fileMakefile,"\n",lpszFilename_Root,chForm);
+						fprintf(fileMakefile, "\n");
 						fprintf(fileMakefile,"%s_%c_Solutions.pdf: ",lpszFilename_Root,chForm);
 						fprintf(fileMakefile,"%s_%c_Solutions.tex\n",lpszFilename_Root,chForm);
 						fprintf(fileMakefile,"\tpdflatex %s_%c_Solutions.tex\n",lpszFilename_Root,chForm);
 						fprintf(fileMakefile,"\tpdflatex %s_%c_Solutions.tex\n",lpszFilename_Root,chForm);
 						fprintf(fileMakefile,"\tpdflatex %s_%c_Solutions.tex\n",lpszFilename_Root,chForm);
-						fprintf(fileMakefile,"\n",lpszFilename_Root,chForm);
+						fprintf(fileMakefile, "\n");
 					}
 					fclose(fileMakefile);
 					printf("makefile generated. Type `make' to generate the .pdfs\n");
