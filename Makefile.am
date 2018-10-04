@@ -22,3 +22,6 @@ include_HEADERS = include/xquiz.h
 # PKG_INSTALLDIR in configure.ac.
 pkgconfig_DATA = ${PACKAGE_NAME}-${API_VERSION}.pc
 
+EXTRA_DIST = LICENSE README.md ${PACKAGE_NAME}-${API_VERSION}.pc
+CLEANFILES = ${PACKAGE_NAME}-${API_VERSION}.pc
+
