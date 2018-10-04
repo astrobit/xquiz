@@ -9,7 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libxquiz", "libxquiz\libxqu
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xquiz-printbank", "xquiz-printbank\xquiz-printbank.vcxproj", "{A8CE802D-4BBE-474E-8744-30C5156B8E9B}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "xquiz-installer", "xquiz-installer\xquiz-installer.vdproj", "{44778E5F-EAC5-4AEB-A82D-AD0E4266BD10}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "xquiz-installer", "xquiz-installer\xquiz-installer.vdproj", "{AFD092EF-B001-4087-A7B1-F1DD0B8F1617}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,10 +43,10 @@ Global
 		{A8CE802D-4BBE-474E-8744-30C5156B8E9B}.Release|x64.Build.0 = Release|x64
 		{A8CE802D-4BBE-474E-8744-30C5156B8E9B}.Release|x86.ActiveCfg = Release|Win32
 		{A8CE802D-4BBE-474E-8744-30C5156B8E9B}.Release|x86.Build.0 = Release|Win32
-		{44778E5F-EAC5-4AEB-A82D-AD0E4266BD10}.Debug|x64.ActiveCfg = Debug
-		{44778E5F-EAC5-4AEB-A82D-AD0E4266BD10}.Debug|x86.ActiveCfg = Debug
-		{44778E5F-EAC5-4AEB-A82D-AD0E4266BD10}.Release|x64.ActiveCfg = Release
-		{44778E5F-EAC5-4AEB-A82D-AD0E4266BD10}.Release|x86.ActiveCfg = Release
+		{AFD092EF-B001-4087-A7B1-F1DD0B8F1617}.Debug|x64.ActiveCfg = Debug
+		{AFD092EF-B001-4087-A7B1-F1DD0B8F1617}.Debug|x86.ActiveCfg = Debug
+		{AFD092EF-B001-4087-A7B1-F1DD0B8F1617}.Release|x64.ActiveCfg = Release
+		{AFD092EF-B001-4087-A7B1-F1DD0B8F1617}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
