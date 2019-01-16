@@ -20,9 +20,9 @@
 <!ELEMENT bank (question)+ >
 <!ELEMENT bankref EMPTY >
 <!ELEMENT question (prompt, choices*, note?)>
-<!ELEMENT prompt (#PCDATA|ref|br|vspace)*>
+<!ELEMENT prompt (#PCDATA|ref|br|vspace|fillin)*>
 <!ELEMENT choices (choice+ , choiceall? , choicesome*, choicenone?)>
-<!ELEMENT choice (#PCDATA|ref|br|vspace)*>
+<!ELEMENT choice (#PCDATA|ref|br|vspace|fillin)*>
 <!ELEMENT choicenone EMPTY>
 <!ELEMENT choiceall EMPTY>
 <!ELEMENT choicesome EMPTY>
