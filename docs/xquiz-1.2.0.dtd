@@ -3,10 +3,11 @@
 <!-- version history -->
 <!-- 1.0: first version-->
 <!-- 1.1: added "conjunction" attribute to choicesome-->
-<!-- 1.2: added br, vspace, form, and ref elements; update URL to astronaos.com -->
+<!-- 1.2: added datealt, br, vspace, form, and ref elements; update URL to astronaos.com -->
 
-<!ELEMENT quiz (title, date, instructions, bank?, bankref?, questions?)>
+<!ELEMENT quiz (title, (date | datealt), instructions, bank?, bankref?, questions?)>
 <!ELEMENT date (#PCDATA)>
+<!ELEMENT datealt EMPTY>
 <!ELEMENT form EMPTY > <!-- place for form code to appear -->
 <!ELEMENT br EMPTY> <!-- line break -->
 <!ELEMENT vspace EMPTY> <!-- insert vertical space -->
@@ -79,3 +80,8 @@
 	id ID #REQUIRED
 >
 
+<!ATTLIST datealt
+	day CDATA #REQUIRED
+	month CDATA #REQUIRED
+	year CDATA #REQUIRED
+>

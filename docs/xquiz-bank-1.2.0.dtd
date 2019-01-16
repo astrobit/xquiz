@@ -60,7 +60,7 @@
 >
 
 <!ATTLIST ref
-	id CDATA #REQUIRED
+	id IDREF #REQUIRED
 >
 
 <!ATTLIST label
