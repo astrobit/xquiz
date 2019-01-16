@@ -55,4 +55,15 @@
 	conjunction (and | or | andor) "and"
 >
 
+<!ATTLIST vspace
+	size CDATA #REQUIRED
+>
+
+<!ATTLIST ref
+	id CDATA #REQUIRED
+>
+
+<!ATTLIST label
+	id ID #REQUIRED
+>
 

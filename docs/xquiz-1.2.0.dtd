@@ -75,7 +75,6 @@
 	id CDATA #REQUIRED
 >
 
-
 <!ATTLIST label
 	id ID #REQUIRED
 >
