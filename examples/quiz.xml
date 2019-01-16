@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<!DOCTYPE quiz PUBLIC "-//B.W.Mulligan//DTD Quiz v1.1//EN" "http://www.astronaos.com/xquiz-1.1.0.dtd">
+<!DOCTYPE quiz PUBLIC "-//B.W.Mulligan//DTD Quiz v1.2//EN" "http://www.astronaos.com/xquiz-1.2.0.dtd">
 <quiz>
-<title> Quiz Number 1\\\vspace{2cm} Form &#37;c </title>
-<date>15~April~2018</date>
+<title> Quiz Number 1<br/><vspace size="2cm"/> <form/> </title>
+<datealt day="15" month="April" year="2018"/>
 <instructions> Read each question and answer carefully. </instructions>
 <bankref file="bank.xml"/>
 
@@ -12,5 +12,7 @@
 <qref id="q3"/>
 <qref id="q4"/>
 <qref id="q5"/>
+<qref id="q6"/>
+<qref id="q7"/>
 </questions>
 </quiz>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0"?>
-<!DOCTYPE bank PUBLIC "-//B.W.Mulligan//DTD Quiz v1.1//EN" "http://www.astronaos.com/xquiz-bank-1.1.0.dtd">
+<!DOCTYPE bank PUBLIC "-//B.W.Mulligan//DTD Quiz v1.2//EN" "http://www.astronaos.com/xquiz-bank-1.2.0.dtd">
 <bank>
 
 <question id="q1" format="mc" keys="key1,key2,key3,key4">
@@ -11,7 +11,7 @@
 		<choice id="a1.d" correct="true"> An Answer 4. </choice>
 		<choice id="a1.e"> An Answer 5. </choice>
 	</choices>
-	<note> Use notes to provide optional text as part of the solutions. This note references Answer 2 (\ref{a2.b}) </note>
+	<note> Use notes to provide optional text as part of the solutions. This note references Answer 2 (<ref id="a2.b"/>) </note>
 </question>
 
 <question id="q2" format="mc" keys="key1,key2,key3">
@@ -27,7 +27,7 @@
 </question>
 
 <question id="q3" format="mc" keys="key1,key2,key4">
-	<prompt> This is a simple multiple choice question with four answers that are scrambled and one (An Answer 5.) that always appears last. </prompt>
+	<prompt> This is a simple multiple choice question with four answers that are scrambled and one (An Answer <ref id="a3.e"/>.) that always appears last. </prompt>
 	<choices scramble="true">
 		<choice id="a3.a"> An Answer 1. </choice>
 		<choice id="a3.b"> An Answer 2. </choice>
@@ -57,17 +57,28 @@
 		<choice id="a5.b"> An Answer 2. </choice>
 		<choice id="a5.c"> An Answer 3. </choice>
 		<choiceall id="a5.d"/>
-		<choicesome id="a5.e" refs="a5.a,a5.b" correct="true"/>
+		<choicesome id="a5.e" refs="a5.a a5.b" correct="true"/>
 	</choices>
 	<note> Use notes to provide optional text as part of the solutions. </note>
 </question>
 
 <question id="q6" format="mc" keys="key3,key4">
-	<prompt> This question suggests the answers fill in a blank \fillin. </prompt>
+	<prompt> This question suggests the answers fill in a blank: <fillin/>. </prompt>
 	<choices scramble="true">
 		<choice id="a6.a"> An Answer 1. </choice>
 		<choice id="a6.b" correct="true"> An Answer 2. </choice>
 		<choice id="a6.c"> An Answer 3. </choice>
+	</choices>
+	<note> Use notes to provide optional text as part of the solutions. </note>
+</question>
+
+<question id="q7" format="mc" keys="key5">
+	<prompt> This question demonstrates an alternate way of doing multiple references for a single answer. </prompt>
+	<choices scramble="true">
+		<choice id="a7.a"> An Answer 1. </choice>
+		<choice id="a7.b" correct="true"> An Answer 2. </choice>
+		<choice id="a7.c"> An Answer 3. </choice>
+		<choice id="a7.d"> <ref id="a7.a"/> and <ref id="a7.c"/> </choice>
 	</choices>
 	<note> Use notes to provide optional text as part of the solutions. </note>
 </question>

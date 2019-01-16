@@ -27,16 +27,16 @@ void Write_Form(const char * lpszFile,char chForm,const quiz & i_cQuiz, const qu
 		if (fileOut != nullptr && fileKey != nullptr && fileSolutions != nullptr)
 		{
 			printf("Generating form %c\n",chForm);
-			fprintf(fileOut,"\\documentclass{exam}\n\\usepackage{units}\n\n\\begin{document}\n\\title{\\LARGE");
-			fprintf(fileOut,i_cQuiz.sTitle.c_str(),chForm);
+			fprintf(fileOut,"\\documentclass{exam}\n\\usepackage{units}\n\n\\newcommand{\\formcode}{Form %c}\n\n\\begin{document}\n\\title{\\LARGE",chForm);
+			fprintf(fileOut,i_cQuiz.sTitle.c_str());
 			fprintf(fileOut,"}\n\\date{%s}\n\\maketitle\n%s\n\\newpage\n\\vspace*{\\fill}\n\\begin{center} This page intentionally left blank. \\end{center}\n\\vspace{\\fill}\n\\newpage\n\\begin{questions}\n",i_cQuiz.sDate.c_str(),i_cQuiz.sInstructions.c_str());
 
-			fprintf(fileSolutions,"\\documentclass[answers]{exam}\n\\usepackage{units}\n\n\\begin{document}\n\\title{\\LARGE");
-			fprintf(fileSolutions,i_cQuiz.sTitle.c_str(),chForm);
+			fprintf(fileSolutions,"\\documentclass[answers]{exam}\n\\usepackage{units}\n\n\\newcommand{\\formcode}{Form %c}\n\n\\begin{document}\n\\title{\\LARGE",chForm);
+			fprintf(fileSolutions,i_cQuiz.sTitle.c_str());
 			fprintf(fileSolutions,"}\n\\date{%s}\n\\maketitle\n%s\n\\newpage\n\\vspace*{\\fill}\n\\begin{center} This page intentionally left blank. \\end{center}\n\\vspace{\\fill}\n\\newpage\n\\begin{questions}\n",i_cQuiz.sDate.c_str(),i_cQuiz.sInstructions.c_str());
 
-			fprintf(fileKey,"\\documentclass{article}\n\\usepackage{fullpage}\n\n\\begin{document}\n\\title{\\LARGE");
-			fprintf(fileKey,i_cQuiz.sTitle.c_str(),chForm);
+			fprintf(fileKey,"\\documentclass{article}\n\\usepackage{fullpage}\n\n\\newcommand{\\formcode}{Form %c}\n\n\\begin{document}\n\\title{\\LARGE",chForm);
+			fprintf(fileKey,i_cQuiz.sTitle.c_str());
 			fprintf(fileKey,"}\n\\date{%s}\n\\maketitle\n",i_cQuiz.sDate.c_str());
 			fprintf(fileKey, "\\begin{enumerate}\n");
 

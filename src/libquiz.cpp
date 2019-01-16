@@ -6,11 +6,12 @@ using namespace xquiz;
 namespace xquiz_xml
 {
 
+
 	const char * Node_Get_PCDATA_Content(const xmlNode * i_lpNode)
 	{
 		const char * lpszRet = nullptr;
 		xmlNode* lpText = i_lpNode->children;
-		while (lpText && lpText->type != XML_TEXT_NODE)
+		while (lpText != nullptr && lpText->type != XML_TEXT_NODE)
 			lpText = lpText->next;
 		if (lpText && lpText->content)
 			lpszRet = (char *)lpText->content;
@@ -18,7 +19,7 @@ namespace xquiz_xml
 	}
 	inline bool Test_Attr_Content(const xmlAttr * i_lpAttr)
 	{
-		return (i_lpAttr && i_lpAttr->children && i_lpAttr->children->type == XML_TEXT_NODE);
+		return (i_lpAttr != nullptr && i_lpAttr->children != nullptr && i_lpAttr->children->type == XML_TEXT_NODE);
 	}
 
 	std::string Attr_Get_String(const xmlAttr * i_lpAttr)
@@ -38,13 +39,82 @@ namespace xquiz_xml
 		}
 		return bRet;
 	}
+	std::string Node_Get_Mixed_PCDATA_Content(const xmlNode * i_lpNode) // allows form, br, vspace, label, and ref elements to appear within
+	{
+		std::string sRet;
+		xmlNode* lpText = i_lpNode->children;
+		while (lpText != nullptr)
+		{
+			if (lpText->type == XML_TEXT_NODE && lpText->content != nullptr)
+				sRet += (char*)(lpText->content);
+			else if (lpText->type == XML_ELEMENT_NODE)
+			{
+				if (strcmp((char *)lpText->name,"form") == 0)
+				{
+					sRet += "\\formcode";
+				}
+				else if (strcmp((char *)lpText->name,"br") == 0)
+					sRet += "\\\\";
+				else if (strcmp((char *)lpText->name,"vspace") == 0)
+				{
+					xmlAttr * lpAttr = lpText->properties;
+					while (lpAttr != nullptr)
+					{
+						if (strcmp((char *)lpAttr->name,"size") == 0)
+						{
+							sRet += "\\vspace{";
+							sRet += Attr_Get_String(lpAttr);
+							sRet += "}";
+						}
+						lpAttr =  lpAttr->next;
+					}
+
+				}
+				else if (strcmp((char *)lpText->name,"label") == 0)
+				{
+					xmlAttr * lpAttr = lpText->properties;
+					while (lpAttr != nullptr)
+					{
+						if (strcmp((char *)lpAttr->name,"id") == 0)
+						{
+							sRet += "\\label{";
+							sRet += Attr_Get_String(lpAttr);
+							sRet += "}";
+						}
+						lpAttr =  lpAttr->next;
+					}
+				}
+				else if (strcmp((char *)lpText->name,"ref") == 0)
+				{
+					xmlAttr * lpAttr = lpText->properties;
+					while (lpAttr != nullptr)
+					{
+						if (strcmp((char *)lpAttr->name,"id") == 0)
+						{
+							sRet += "\\ref{";
+							sRet += Attr_Get_String(lpAttr);
+							sRet += "}";
+						}
+						lpAttr =  lpAttr->next;
+					}
+				}
+				else if (strcmp((char *)lpText->name,"fillin") == 0)
+				{
+					sRet += "\\fillin";
+				}
+				
+			}
+			lpText = lpText->next;
+		}
+		return sRet;
+	}
 };
 
 void answer::Read_XML(xmlNode * i_lpRoot_Element)
 {
 	if (i_lpRoot_Element && i_lpRoot_Element->type == XML_ELEMENT_NODE && strcmp((char *)i_lpRoot_Element->name,"choice") == 0)
 	{
-		sText = xquiz_xml::Node_Get_PCDATA_Content(i_lpRoot_Element);
+		sText = xquiz_xml::Node_Get_Mixed_PCDATA_Content(i_lpRoot_Element);
 		xmlAttr * lpCurr_Attr = i_lpRoot_Element->properties;
 		while (lpCurr_Attr)
 		{
@@ -142,7 +212,7 @@ void answer_some::Read_XML(xmlNode * i_lpRoot_Element)
 		bool bWhitespace = true;
 		for (auto iterI = sRefs.begin(); iterI != sRefs.end(); iterI++)
 		{
-			if (*iterI == ',')
+			if (*iterI == ' ' || *iterI == ',' || *iterI == '\t')
 			{
 				bWhitespace = true;
 				if (!sCurr_Ref.empty())
@@ -220,11 +290,11 @@ void question::Read_XML(xmlNode * i_lpRoot_Element)
 			case XML_ELEMENT_NODE:
 				if (strcmp((char *)lpCurr_Node->name,"prompt") == 0)
 				{
-					sPrompt = xquiz_xml::Node_Get_PCDATA_Content(lpCurr_Node);
+					sPrompt = xquiz_xml::Node_Get_Mixed_PCDATA_Content(lpCurr_Node);
 				}
 				else if (strcmp((char *)lpCurr_Node->name,"note") == 0)
 				{
-					sNote = xquiz_xml::Node_Get_PCDATA_Content(lpCurr_Node);
+					sNote = xquiz_xml::Node_Get_Mixed_PCDATA_Content(lpCurr_Node);
 				}
 				else if (strcmp((char *)lpCurr_Node->name,"choices") == 0)
 				{
@@ -358,15 +428,39 @@ void quiz::Parse_XML(xmlNode * i_lpRoot_Element)
 			case XML_ELEMENT_NODE:
 				if (strcmp((char *)lpCurr_Node->name,"title") == 0)
 				{
-					sTitle = xquiz_xml::Node_Get_PCDATA_Content(lpCurr_Node);
+					sTitle = xquiz_xml::Node_Get_Mixed_PCDATA_Content(lpCurr_Node);
 				}
 				else if (strcmp((char *)lpCurr_Node->name,"date") == 0)
 				{
 					sDate = xquiz_xml::Node_Get_PCDATA_Content(lpCurr_Node);
 				}
+				else if (strcmp((char *)lpCurr_Node->name,"datealt") == 0)
+				{
+					xmlAttr * lpCurr_Attr = lpCurr_Node->properties;
+					std::string sDay;
+					std::string sMonth;
+					std::string sYear;
+					while (lpCurr_Attr)
+					{
+						if (strcmp((char *)lpCurr_Attr->name,"day") == 0)
+						{
+							sDay = xquiz_xml::Attr_Get_String(lpCurr_Attr);
+						}
+						else if (strcmp((char *)lpCurr_Attr->name,"month") == 0)
+						{
+							sMonth = xquiz_xml::Attr_Get_String(lpCurr_Attr);
+						}
+						else if (strcmp((char *)lpCurr_Attr->name,"year") == 0)
+						{
+							sYear = xquiz_xml::Attr_Get_String(lpCurr_Attr);
+						}
+						lpCurr_Attr = lpCurr_Attr->next;
+					}
+					sDate = sDay + "~" + sMonth + "~" + sYear;
+				}
 				else if (strcmp((char *)lpCurr_Node->name,"instructions") == 0)
 				{
-					sInstructions = xquiz_xml::Node_Get_PCDATA_Content(lpCurr_Node);
+					sInstructions = xquiz_xml::Node_Get_Mixed_PCDATA_Content(lpCurr_Node);
 				}
 				else if (strcmp((char *)lpCurr_Node->name,"bank") == 0)
 				{
