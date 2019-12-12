@@ -287,6 +287,8 @@ void question::Read_XML(xmlNode * i_lpRoot_Element)
 
 			switch (lpCurr_Node->type)
 			{
+			default:
+				break;
 			case XML_ELEMENT_NODE:
 				if (strcmp((char *)lpCurr_Node->name,"prompt") == 0)
 				{
@@ -313,6 +315,8 @@ void question::Read_XML(xmlNode * i_lpRoot_Element)
 					{
 						switch (lpCurr_Choice_Node->type)
 						{
+						default:
+							break;
 						case XML_ELEMENT_NODE:
 							if (strcmp((char *)lpCurr_Choice_Node->name,"choice") == 0)
 							{
@@ -361,6 +365,8 @@ void bank::Read_XML(xmlNode * i_lpRoot_Element)
 		{
 			switch (lpCurr_Node->type)
 			{
+			default:
+				break;
 			case XML_ELEMENT_NODE:
 				if (strcmp((char *)lpCurr_Node->name,"question") == 0)
 				{
@@ -384,6 +390,8 @@ std::vector <std::string> quiz::Parse_Questions_XML(xmlNode * i_lpRoot_Element)
 		{
 			switch (lpCurr_Node->type)
 			{
+			default:
+				break;
 			case XML_ELEMENT_NODE:
 				if (strcmp((char *)lpCurr_Node->name,"qref") == 0)
 				{
@@ -425,6 +433,8 @@ void quiz::Parse_XML(xmlNode * i_lpRoot_Element)
 		{
 			switch (lpCurr_Node->type)
 			{
+			default:
+				break;
 			case XML_ELEMENT_NODE:
 				if (strcmp((char *)lpCurr_Node->name,"title") == 0)
 				{
