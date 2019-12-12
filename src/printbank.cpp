@@ -20,7 +20,7 @@ void Write_Form(const char * lpszFile,const bank & i_cBank )
 		FILE * fileOut = fopen(sQuestion_Filename,"wt");
 		if (fileOut != nullptr)
 		{
-			fprintf(fileOut,"\\documentclass[answers]{exam}\n\\usepackage{units}\n\n\\begin{document}\n\\title{\\LARGE Question Bank");
+			fprintf(fileOut,"\\documentclass[answers]{exam}\n\\usepackage{units}\n\\usepackage{tikz}\n\\usepackage{graphicx}\n\n\\begin{document}\n\\title{\\LARGE Question Bank");
 			fprintf(fileOut,"}\n\\date{\\today}\n\\maketitle\n\\begin{questions}\n");
 
 			for (auto iterI = i_cBank.begin(); iterI != i_cBank.end(); iterI++)
