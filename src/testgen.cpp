@@ -27,16 +27,16 @@ void Write_Form(const char * lpszFile,char chForm,const quiz & i_cQuiz, const qu
 		if (fileOut != nullptr && fileKey != nullptr && fileSolutions != nullptr)
 		{
 			printf("Generating form %c\n",chForm);
-			fprintf(fileOut,"\\documentclass{exam}\n\\usepackage{units}\n\n\\newcommand{\\formcode}{Form %c}\n\n\\begin{document}\n\\title{\\LARGE",chForm);
-			fprintf(fileOut,i_cQuiz.sTitle.c_str());
+			fprintf(fileOut,"\\documentclass{exam}\n\\usepackage{units}\n\\usepackage{tikz}\n\\usepackage{graphicx}\n\n\\newcommand{\\formcode}{Form %c}\n\n\\begin{document}\n\\title{\\LARGE",chForm);
+			fprintf(fileOut,i_cQuiz.sTitle.c_str(),chForm);
 			fprintf(fileOut,"}\n\\date{%s}\n\\maketitle\n%s\n\\newpage\n\\vspace*{\\fill}\n\\begin{center} This page intentionally left blank. \\end{center}\n\\vspace{\\fill}\n\\newpage\n\\begin{questions}\n",i_cQuiz.sDate.c_str(),i_cQuiz.sInstructions.c_str());
 
-			fprintf(fileSolutions,"\\documentclass[answers]{exam}\n\\usepackage{units}\n\n\\newcommand{\\formcode}{Form %c}\n\n\\begin{document}\n\\title{\\LARGE",chForm);
-			fprintf(fileSolutions,i_cQuiz.sTitle.c_str());
+			fprintf(fileSolutions,"\\documentclass[answers]{exam}\n\\usepackage{units}\n\\usepackage{tikz}\n\\usepackage{graphicx}\n\n\\newcommand{\\formcode}{Form %c}\n\n\\begin{document}\n\\title{\\LARGE",chForm);
+			fprintf(fileSolutions,i_cQuiz.sTitle.c_str(),chForm);
 			fprintf(fileSolutions,"}\n\\date{%s}\n\\maketitle\n%s\n\\newpage\n\\vspace*{\\fill}\n\\begin{center} This page intentionally left blank. \\end{center}\n\\vspace{\\fill}\n\\newpage\n\\begin{questions}\n",i_cQuiz.sDate.c_str(),i_cQuiz.sInstructions.c_str());
 
 			fprintf(fileKey,"\\documentclass{article}\n\\usepackage{fullpage}\n\n\\newcommand{\\formcode}{Form %c}\n\n\\begin{document}\n\\title{\\LARGE",chForm);
-			fprintf(fileKey,i_cQuiz.sTitle.c_str());
+			fprintf(fileKey,i_cQuiz.sTitle.c_str(),chForm);
 			fprintf(fileKey,"}\n\\date{%s}\n\\maketitle\n",i_cQuiz.sDate.c_str());
 			fprintf(fileKey, "\\begin{enumerate}\n");
 
@@ -155,8 +155,8 @@ int main(int i_iArg_Count, const char * i_lpszArg_Values[])
 	bool bDont_Run_Makefile = false;
 	bool bShow_Question_ID = false;
 	size_t tNum_Forms = 0;
-
-	for (size_t tI = 1; tI < i_iArg_Count; tI++)
+	size_t tNum_Args = (size_t)i_iArg_Count;
+	for (size_t tI = 1; tI < tNum_Args; tI++)
 	{
 		if (i_lpszArg_Values[tI][0] == '-')
 		{
@@ -193,7 +193,7 @@ int main(int i_iArg_Count, const char * i_lpszArg_Values[])
 					else if (i_lpszArg_Values[tI][3] == 0)
 					{
 						tI++;
-						if (tI < i_iArg_Count && i_lpszArg_Values[tI][0] >= '0' && i_lpszArg_Values[tI][0] <= '9')
+						if (tI < tNum_Args && i_lpszArg_Values[tI][0] >= '0' && i_lpszArg_Values[tI][0] <= '9')
 							tNum_Forms = std::atoi(i_lpszArg_Values[tI]);
 						else
 						{
@@ -210,7 +210,7 @@ int main(int i_iArg_Count, const char * i_lpszArg_Values[])
 				else if (i_lpszArg_Values[tI][2] == 0)
 				{
 					tI++;
-					if (tI < i_iArg_Count)
+					if (tI < tNum_Args)
 					{
 						if (i_lpszArg_Values[tI][0] >= '0' && i_lpszArg_Values[tI][0] <= '9')
 							tNum_Forms = std::atoi(i_lpszArg_Values[tI]);
@@ -221,7 +221,7 @@ int main(int i_iArg_Count, const char * i_lpszArg_Values[])
 							else if (i_lpszArg_Values[tI][1] == 0)
 							{
 								tI++;
-								if (tI < i_iArg_Count)
+								if (tI < tNum_Args)
 								{
 									if (i_lpszArg_Values[tI][0] >= '0' && i_lpszArg_Values[tI][0] <= '9')
 										tNum_Forms = std::atoi(i_lpszArg_Values[tI]);
@@ -338,10 +338,12 @@ int main(int i_iArg_Count, const char * i_lpszArg_Values[])
 		size_t tNum = -1;
 		if (tNum_Forms > 0)
 			tNum = tNum_Forms;
-		while (tNum == -1)
+		while (tNum == ((size_t)-1))
 		{
 			printf("How many test forms? ");
-			fgets(lpszNum,512,stdin);
+			char * lpRet = fgets(lpszNum,512,stdin);
+			if (lpRet != lpszNum)
+				fprintf(stderr,"Fault reading # of test forms.\n");
 			lpszNum[511] = 0;
 			if (lpszNum[0] >= '1' && lpszNum[0] <= '9')
 				tNum = std::atoi(lpszNum);
@@ -357,7 +359,7 @@ int main(int i_iArg_Count, const char * i_lpszArg_Values[])
 
 			Write_Form(lpszFilename_Root,chForm,cQuiz,mapInstances[tI],bInclude_Notes,bShow_Question_ID);
 		}
-		char lpszCorrelation_File_Path[256];
+		char lpszCorrelation_File_Path[512];
 		sprintf(lpszCorrelation_File_Path,"%s_Question_Correlation.csv",lpszFilename_Root);
 		FILE * fileCorrelation = fopen(lpszCorrelation_File_Path,"wt");
 		if (fileCorrelation != nullptr)
@@ -458,7 +460,10 @@ int main(int i_iArg_Count, const char * i_lpszArg_Values[])
 				if (!bOverwrite_Makfile)
 				{
 					printf("Overwrite makefile?\n");
-					fgets(lpszResponse,512,stdin);
+					char * lpRet = fgets(lpszResponse,512,stdin);
+					if (lpRet != lpszResponse)
+						fprintf(stderr,"Fault reading response.\n");
+
 					lpszResponse[511] = 0;
 					// strip CR/LF
 
@@ -538,9 +543,11 @@ int main(int i_iArg_Count, const char * i_lpszArg_Values[])
 			if (fileMakefile != nullptr)
 			{
 				fclose(fileMakefile);
-				char lpszMake_Command[256];
+				char lpszMake_Command[512];
 				sprintf(lpszMake_Command,"make -f %s",lpszMakefilePath);
-				system(lpszMake_Command);
+				int nSuccess = system(lpszMake_Command);
+				if (nSuccess != 0)
+					fprintf(stderr,"Fault making pdf\n");
 			}
 		}
 	}
