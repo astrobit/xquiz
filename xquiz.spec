@@ -1,11 +1,11 @@
 Name:           xquiz
-Version:        1.0.2
+Version:        1.0.3
 Release:        1%{?dist}
 Summary:        Quiz form generating software
 
 License:        LGPLv3+
 URL:            https://github.com/astrobit/xquiz
-Source0:        https://www.astronaos.com/xquiz/1.0.2/xquiz-1.0.2.tar.gz
+Source0:        https://www.astronaos.com/xquiz/1.0.3/xquiz-1.0.3.tar.gz
 
 #The versions listed for requires here are based on what is on my developer
 # system; the code may work with earlier versions of each of these libraries.
@@ -71,6 +71,8 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Dec 12 2019 Brian W. Mulligan <bwmulligan@astronaos.com>
+- Add package tikz to tex files
 * Thu Oct 4 2018 Brian W. Mulligan <bwmulligan@astronaos.com>
 - Initial RPM release
 
