@@ -35,10 +35,30 @@ void Write_Form(const char * lpszFile,char chForm,const quiz & i_cQuiz, const qu
 			fprintf(fileSolutions,i_cQuiz.sTitle.c_str(),chForm);
 			fprintf(fileSolutions,"}\n\\date{%s}\n\\maketitle\n%s\n\\newpage\n\\vspace*{\\fill}\n\\begin{center} This page intentionally left blank. \\end{center}\n\\vspace{\\fill}\n\\newpage\n\\begin{questions}\n",i_cQuiz.sDate.c_str(),i_cQuiz.sInstructions.c_str());
 
-			fprintf(fileKey,"\\documentclass{article}\n\\usepackage{fullpage}\n\n\\newcommand{\\formcode}{Form %c}\n\n\\begin{document}\n\\title{\\LARGE",chForm);
+			fprintf(fileKey,"\\documentclass{article}\n\\usepackage{fullpage}\n\\usepackage{pdflscape}\n\n\\newcommand{\\formcode}{Form %c}\n\n\\begin{document}\n",chForm);
+			fprintf(fileKey, "\\begin{landscape}\\begin{centering}\n");
 			fprintf(fileKey,i_cQuiz.sTitle.c_str(),chForm);
-			fprintf(fileKey,"}\n\\date{%s}\n\\maketitle\n",i_cQuiz.sDate.c_str());
-			fprintf(fileKey, "\\begin{enumerate}\n");
+			fprintf(fileKey,"\\\\\n%s\\\\\n\\vspace{1cm}\n\\end{centering}\n\n\\begin{centering}\n",i_cQuiz.sDate.c_str());
+			fprintf(fileKey, "\\begin{tabular}{|c||");
+
+			size_t nNum_Questions = i_cInstance.vQuestions.size();
+			size_t nNum_Columns_Key = nNum_Questions / 10;
+			if ((nNum_Questions % 10) != 0)
+				nNum_Columns_Key++;
+			for(size_t nCol = 0; nCol < nNum_Columns_Key; nCol++)
+			{
+				fprintf(fileKey, "c|");
+			}
+			fprintf(fileKey, "}\n\\hline\n\t\t");
+			for(size_t nCol = 0; nCol < nNum_Columns_Key; nCol++)
+			{
+				fprintf(fileKey, "&\t+%i\t",(nCol * 10));
+			}
+			fprintf(fileKey, "\\\\\n\\hline\n\\hline\n");
+
+			std::map<size_t, char> mapAnswer_Key;
+
+			size_t nQuestion = 1;
 
 
 			for (auto iterI = i_cInstance.vQuestions.begin(); iterI != i_cInstance.vQuestions.end(); iterI++)
@@ -92,7 +112,8 @@ void Write_Form(const char * lpszFile,char chForm,const quiz & i_cQuiz, const qu
 					{
 						fprintf(fileOut,"\\CorrectChoice ");
 						fprintf(fileSolutions,"\\CorrectChoice ");
-						fprintf(fileKey,"\\item %c\n",chLetter);
+//						fprintf(fileKey,"\\item %c\n",chLetter);
+						mapAnswer_Key[nQuestion] = chLetter + ('A' - 'a');
 					}
 					else
 					{
@@ -111,9 +132,29 @@ void Write_Form(const char * lpszFile,char chForm,const quiz & i_cQuiz, const qu
 				if (i_bWrite_Notes && !cQuest.sNote.empty())
 					fprintf(fileSolutions,"\\textbf{Note:} %s\n",cQuest.sNote.c_str());
 				fprintf(fileSolutions,"\n");
+				nQuestion++;
 			}
 
-			fprintf(fileKey,"\\end{enumerate}\n");
+			for (size_t nRow = 0; nRow < 10; nRow++)
+			{
+				fprintf(fileKey,"\t%i\t",(nRow + 1));
+				for (size_t nCol = 0; nCol <nNum_Columns_Key; nCol++)
+				{
+					nQuestion = nCol * 10 + nRow + 1;
+					fprintf(fileKey,"&\t");
+					if (nQuestion <= nNum_Questions) //<= because we start counting questions at 1
+					{
+						fprintf(fileKey,"%c",mapAnswer_Key[nQuestion]);
+					}
+					fprintf(fileKey,"\t");
+				}
+				fprintf(fileKey,"\\\\\n\\hline\n");
+				if (nRow == 4)
+					fprintf(fileKey,"\\hline\n");
+			}
+			fprintf(fileKey, "\\end{tabular}\n\\end{centering}\n\\end{landscape}\n");
+
+
 			fprintf(fileOut,"\\end{questions}\n");
 			fprintf(fileSolutions,"\\end{questions}\n");
 
@@ -515,23 +556,27 @@ int main(int i_iArg_Count, const char * i_lpszArg_Values[])
 						char chForm = (char)('A' + tI);
 						fprintf(fileMakefile,"%s_%c.pdf: ",lpszFilename_Root,chForm);
 						fprintf(fileMakefile,"%s_%c.tex\n",lpszFilename_Root,chForm);
-						fprintf(fileMakefile,"\tpdflatex %s_%c.tex\n",lpszFilename_Root,chForm);
-						fprintf(fileMakefile,"\tpdflatex %s_%c.tex\n",lpszFilename_Root,chForm);
-						fprintf(fileMakefile,"\tpdflatex %s_%c.tex\n",lpszFilename_Root,chForm);
+						fprintf(fileMakefile,"\txelatex %s_%c.tex\n",lpszFilename_Root,chForm);
+						fprintf(fileMakefile,"\txelatex %s_%c.tex\n",lpszFilename_Root,chForm);
+						fprintf(fileMakefile,"\txelatex %s_%c.tex\n",lpszFilename_Root,chForm);
 						fprintf(fileMakefile, "\n");
 						fprintf(fileMakefile,"%s_%c_Key.pdf: ",lpszFilename_Root,chForm);
 						fprintf(fileMakefile,"%s_%c_Key.tex\n",lpszFilename_Root,chForm);
-						fprintf(fileMakefile,"\tpdflatex %s_%c_Key.tex\n",lpszFilename_Root,chForm);
-						fprintf(fileMakefile,"\tpdflatex %s_%c_Key.tex\n",lpszFilename_Root,chForm);
-						fprintf(fileMakefile,"\tpdflatex %s_%c_Key.tex\n",lpszFilename_Root,chForm);
+						fprintf(fileMakefile,"\txelatex %s_%c_Key.tex\n",lpszFilename_Root,chForm);
+						fprintf(fileMakefile,"\txelatex %s_%c_Key.tex\n",lpszFilename_Root,chForm);
+						fprintf(fileMakefile,"\txelatex %s_%c_Key.tex\n",lpszFilename_Root,chForm);
 						fprintf(fileMakefile, "\n");
 						fprintf(fileMakefile,"%s_%c_Solutions.pdf: ",lpszFilename_Root,chForm);
 						fprintf(fileMakefile,"%s_%c_Solutions.tex\n",lpszFilename_Root,chForm);
-						fprintf(fileMakefile,"\tpdflatex %s_%c_Solutions.tex\n",lpszFilename_Root,chForm);
-						fprintf(fileMakefile,"\tpdflatex %s_%c_Solutions.tex\n",lpszFilename_Root,chForm);
-						fprintf(fileMakefile,"\tpdflatex %s_%c_Solutions.tex\n",lpszFilename_Root,chForm);
+						fprintf(fileMakefile,"\txelatex %s_%c_Solutions.tex\n",lpszFilename_Root,chForm);
+						fprintf(fileMakefile,"\txelatex %s_%c_Solutions.tex\n",lpszFilename_Root,chForm);
+						fprintf(fileMakefile,"\txelatex %s_%c_Solutions.tex\n",lpszFilename_Root,chForm);
 						fprintf(fileMakefile, "\n");
 					}
+					fprintf(fileMakefile,"clean:\n");
+					fprintf(fileMakefile,"\t-rm *.pdf\n");
+					fprintf(fileMakefile,"\t-rm *.aux\n");
+					fprintf(fileMakefile,"\t-rm *.log\n");
 					fclose(fileMakefile);
 					printf("makefile generated. Type `make' to generate the .pdfs\n");
 				}
