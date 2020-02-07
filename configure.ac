@@ -21,11 +21,14 @@ PKG_INSTALLDIR
 
 AM_INIT_AUTOMAKE
 
-#AC_PROG_RANLIB
-
 AC_LANG(C++)
 
 AC_PROG_CXX
+AC_PROG_RANLIB
+
+AC_TYPE_SIZE_T
+AC_CHECK_HEADER_STDBOOL
+AC_C_INLINE
 
 #AX_CXX_COMPILE_STDCXX(11,noext,mandatory) #use c++11 standard, required in a variety of places
 
