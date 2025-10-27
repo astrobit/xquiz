@@ -4,7 +4,7 @@ exam_checker
 genquizzes
 testgen
 printbank
-xquiz-*
+
 
 # Prerequisites
 *.d
