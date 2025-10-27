@@ -1,0 +1,43 @@
+<!-- This is the reference data for a quiz as used by xquiz. The official DTD is currently stored at https://www.astronaos.com/xquiz-2.0.0.dtd -->
+<!-- version history -->
+<!-- 1.0: first version-->
+<!-- 1.1: added "conjunction" attribute to choicesome-->
+<!-- 1.2: added datealt, br, vspace, form, and ref elements; update URL to astronaos.com -->
+<!-- 2.0: added remove all non-quiz specific tags and import bank  -->
+<!-- DTD version 2.0 -->
+
+<!ENTITY % bank SYSTEM "https://www.astronaos.com/xquiz-bank-2.0.0.dtd">
+%bank; <!-- import xquiz bank -->
+
+<!ELEMENT quiz (bank?, bankref?, title, (date | datealt), instructions, questions?)>
+<!ELEMENT date EMPTY>
+<!ELEMENT formref EMPTY > <!-- place for form code to appear -->
+<!ELEMENT title (#PCDATA|formref|br)*>
+<!ELEMENT instructions (%quizinline;|fillin)*>
+<!ELEMENT bankref EMPTY >
+
+<!ELEMENT questionblock (qref|questionblock)+ >
+<!ELEMENT questions (qref|questionblock)+ >
+<!ELEMENT qref EMPTY >
+
+<!ATTLIST questionblock
+	scramble %boolean; "true"
+>
+
+<!ATTLIST questions
+	scramble %boolean; "true"
+>
+
+<!ATTLIST qref
+	id ID #REQUIRED
+	ref CDATA #REQUIRED
+>
+<!ATTLIST bankref
+	src CDATA #REQUIRED
+>
+
+<!ATTLIST date
+	day CDATA #REQUIRED
+	month CDATA #REQUIRED
+	year CDATA #REQUIRED
+>

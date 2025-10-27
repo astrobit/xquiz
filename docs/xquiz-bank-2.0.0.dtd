@@ -1,0 +1,109 @@
+<!-- This is the reference data for a question bank as used by xquiz. The 
+official DTD is currently stored at 
+https://www.astronaos.com/xquiz-bank-2.0.0.dtd -->
+<!-- DTD version 1.2 -->
+<!-- version history -->
+<!-- 1.0: first version-->
+<!-- 1.1: added "conjunction" attribute to choicesome-->
+<!-- 1.2: added vspace, label, ref, and fillin elements; update URL to 
+astronaos.com -->
+<!-- 2.0: removed vspace, label, and ref elements; add constant, variable, 
+equation, calculated, numref, caption, subfigure, ref, hint, feedback, 
+questiongroup -->
+
+<!ENTITY % html SYSTEM "http://www.w3.org/TR/html4/strict.dtd">
+%html; <!-- import HTML 4 -->
+
+<!ENTITY % quizinline "#PCDATA | %fontstyle; | %phrase; | %special; | BLOCKQUOTE | %list | HR | TABLE | ref | numref | equation">
+
+
+<!ELEMENT bank (question|questiongroup)+ >
+
+<!ELEMENT constant EMPTY> <!-- a constant value -->
+<!ELEMENT variable EMPTY> <!-- information about a variable quantity -->
+<!ELEMENT equation #PCDATA> <!-- an equation to be typeset using Mathjax/latex-->
+<!ELEMENT calculated (#PCDATA | numref)*> <!-- a mathematical expression using variables -->
+<!ELEMENT numref EMPTY> <!-- a reference to a calculated -->
+<!ELEMENT caption (%quizinline;)*> <!-- caption for images -->
+<!ELEMENT subfigure (img,caption?)> <!-- an image, and an optional caption-->
+<!ELEMENT figure ((subfigure*|img),caption?)> <!-- subfigures or and image, and an optional caption-->
+<!ELEMENT ref EMPTY> <!-- a reference to a question, answer, figure, subfigure, or equation -->
+<!ELEMENT fillin EMPTY> <!-- inserts a space for a word to be filled in -->
+<!ELEMENT hint (%quizinline;)*>
+<!ELEMENT feedback (%quizinline;)*>
+<!ELEMENT question (variable* ,calculation*, prompt, hint, choices*, note?)>
+<!ELEMENT questiongroup (prompt, question*, note?)>
+<!ELEMENT prompt (%quizinline;)*>
+<!ELEMENT choices (choice+ , choiceall? , choicesome*, choicenone?)>
+<!ELEMENT choice (%quizinline;|feedback)*>
+<!ELEMENT choicenone EMPTY>
+<!ELEMENT choiceall EMPTY>
+<!ELEMENT choicesome EMPTY>
+<!ELEMENT note (%quizinline;)*>
+
+
+<!ENTITY % boolean "(true | false)">
+<!ENTITY % form PUBLIC "form" "test">
+
+<!ATTLIST figure
+	titled %boolean "false"
+>
+
+<!ATTLIST variable
+	id CDATA #REQUIRED
+	max CDATA #REQUIRED
+	min CDATA #REQUIRED
+	roundto CDATA "1"
+	stdev CDATA #IMPLIED
+	distribution (tophat|gaussian) "tophat"
+	requirescientific %boolean "false"
+>
+
+<!ATTLIST varref
+	CDATA CDATA #REQUIRED
+>
+
+<!ATTLIST question
+	id	CDATA	#REQUIRED
+	format	(mc | fb | open)	"mc"
+	keys CDATA #IMPLIED
+>
+
+<!ATTLIST choices
+	scramble %boolean; "false"
+	layout (horizontal | vertical) "vertical"
+>
+<!ATTLIST choice
+	id	CDATA #REQUIRED
+	scramble %boolean; "true"
+	correct %boolean; "false"
+>
+	
+<!ATTLIST choicenone
+	id	ID #REQUIRED
+	correct %boolean; "false"
+>
+	
+<!ATTLIST choiceall
+	id	ID #REQUIRED
+	correct %boolean; "false"
+>
+
+<!ATTLIST choicesome
+	id	ID #REQUIRED
+	correct %boolean; "false"
+	refs CDATA #REQUIRED
+	conjunction (and | or | andor) "and"
+>	
+
+<!ATTLIST vspace
+	size CDATA #REQUIRED
+>
+
+<!ATTLIST ref
+	id CDATAS #REQUIRED
+>
+
+<!ATTLIST label
+	id ID #REQUIRED
+>
