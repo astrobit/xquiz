@@ -15,8 +15,8 @@ questiongroup -->
 %html; <!-- import HTML 4 -->
 
 <!ENTITY % quizinline "#PCDATA | %fontstyle; | %phrase; | %special; | BLOCKQUOTE | %list | HR | TABLE | ref | numref | equation">
-<!ENTITY mps "<equation>\frac{\mathrm{m}}{\mathrm{s}}</equation>"
-<!ENTITY mpss "<equation>\frac{\mathrm{m}}{\mathrm{s}^2}</equation>"
+<!ENTITY mps "<equation>\frac{\mathrm{m}}{\mathrm{s}}</equation>">
+<!ENTITY mpss "<equation>\frac{\mathrm{m}}{\mathrm{s}^2}</equation>">
 
 <!ELEMENT bank (constant|question|group)+ >
 
