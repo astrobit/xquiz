@@ -6,28 +6,7 @@
 <!ENTITY % quiz SYSTEM "https://www.astronaos.com/xquiz-2.0.0.dtd">
 %quiz; <!-- import xquiz bank -->
 
-<!ELEMENT quizinstance (formvalue|varvalue|qiref)>
+<!ELEMENT quizinstance (title,instructions,questions)>
 <!ELEMENT formvalue EMPTY > <!-- place for form code to appear -->
 
 
-<!ATTLIST questionblock
-	scramble %boolean; "true"
->
-
-<!ATTLIST questions
-	scramble %boolean; "true"
->
-
-<!ATTLIST qref
-	id ID #REQUIRED
-	ref CDATA #REQUIRED
->
-<!ATTLIST bankref
-	src CDATA #REQUIRED
->
-
-<!ATTLIST date
-	day CDATA #REQUIRED
-	month CDATA #REQUIRED
-	year CDATA #REQUIRED
->

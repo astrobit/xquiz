@@ -9,29 +9,34 @@
 <!ENTITY % bank SYSTEM "https://www.astronaos.com/xquiz-bank-2.0.0.dtd">
 %bank; <!-- import xquiz bank -->
 
-<!ELEMENT quiz (bank?, bankref?, title, (date | datealt), instructions, questions?)>
+<!ELEMENT bankref EMPTY >
+<!ELEMENT activity (bank?, bankref?, title, date, instructions, (questions? | questionblock?))>
 <!ELEMENT date EMPTY>
 <!ELEMENT formref EMPTY > <!-- place for form code to appear -->
-<!ELEMENT title (#PCDATA|formref|br)*>
+<!ELEMENT title (#PCDATA|br)*>
 <!ELEMENT instructions (%quizinline;|fillin)*>
-<!ELEMENT bankref EMPTY >
 
-<!ELEMENT questionblock (qref|questionblock)+ >
-<!ELEMENT questions (qref|questionblock)+ >
+<!ELEMENT section (prompt?,(qref|qselect)*) >
+<!ELEMENT questions (qref|qselect|section)+ >
 <!ELEMENT qref EMPTY >
-
-<!ATTLIST questionblock
-	scramble %boolean; "true"
->
+<!ELEMENT qselect EMPTY >
 
 <!ATTLIST questions
 	scramble %boolean; "true"
+	scrambleanswers %boolean; "true"
 >
 
 <!ATTLIST qref
 	id ID #REQUIRED
 	ref CDATA #REQUIRED
 >
+
+<!ATTLIST qselect
+	id ID #REQUIRED
+	num CDATA "1"
+	refs CDATA #REQUIRED
+>
+
 <!ATTLIST bankref
 	src CDATA #REQUIRED
 >

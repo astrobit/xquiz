@@ -17,8 +17,10 @@ questiongroup -->
 <!ENTITY % quizinline "#PCDATA | %fontstyle; | %phrase; | %special; | BLOCKQUOTE | %list | HR | TABLE | ref | numref | equation">
 
 
-<!ELEMENT bank (question|questiongroup)+ >
+<!ELEMENT bank (constant|question|group)+ >
 
+<!ELEMENT author (#PCDATA | A)*>
+<!ELEMENT license (#PCDATA | A)*>
 <!ELEMENT constant EMPTY> <!-- a constant value -->
 <!ELEMENT variable EMPTY> <!-- information about a variable quantity -->
 <!ELEMENT equation #PCDATA> <!-- an equation to be typeset using Mathjax/latex-->
@@ -31,43 +33,79 @@ questiongroup -->
 <!ELEMENT fillin EMPTY> <!-- inserts a space for a word to be filled in -->
 <!ELEMENT hint (%quizinline;)*>
 <!ELEMENT feedback (%quizinline;)*>
-<!ELEMENT question (variable* ,calculation*, prompt, hint, choices*, note?)>
-<!ELEMENT questiongroup (prompt, question*, note?)>
-<!ELEMENT prompt (%quizinline;)*>
+<!ELEMENT group (question*) -->
+<!ELEMENT question (author*, license, variable* ,calculation*, prompt, hint, part*, catergories?, choices?, solution?, note?)>
+<!ELEMENT part (prompt, hint, part*, catergories?, choices?, solution?, note?)>
+<!ELEMENT prompt (%quizinline; | figure)*>
+<!ELEMENT catergories (category*) >
+<!ELEMENT catergory (choice*) >
 <!ELEMENT choices (choice+ , choiceall? , choicesome*, choicenone?)>
 <!ELEMENT choice (%quizinline;|feedback)*>
 <!ELEMENT choicenone EMPTY>
 <!ELEMENT choiceall EMPTY>
 <!ELEMENT choicesome EMPTY>
+<!ELEMENT solution (%quizinline;)* )
 <!ELEMENT note (%quizinline;)*>
 
-
 <!ENTITY % boolean "(true | false)">
-<!ENTITY % form PUBLIC "form" "test">
+<!ATTLIST bank
+	id		CDATA #REQUIRED>
 
 <!ATTLIST figure
 	titled %boolean "false"
 >
 
+<!ATTLIST constant
+	id ID #REQUIRED
+	value CDATA #REQUIRED
+	units CDATA #IMPLIED
+>
+
 <!ATTLIST variable
-	id CDATA #REQUIRED
+	id ID #REQUIRED
 	max CDATA #REQUIRED
 	min CDATA #REQUIRED
 	roundto CDATA "1"
 	stdev CDATA #IMPLIED
 	distribution (tophat|gaussian) "tophat"
 	requirescientific %boolean "false"
+	units CDATA #IMPLIED
+>
+<!ATTLIST calculated
+	id ID #REQUIRED
+	units CDATA #IMPLIED
 >
 
-<!ATTLIST varref
-	CDATA CDATA #REQUIRED
+<!ATTLIST numref
+	idref CDATA #REQUIRED
+	showunits %boolean; "false"
 >
 
 <!ATTLIST question
-	id	CDATA	#REQUIRED
-	format	(mc | fb | open)	"mc"
+	id	ID	#REQUIRED
+	numeric %boolean "false"
+	analytic %boolean "false"
+	essay %boolean "false"
+	ranking %boolean "false"
+	categories %boolean "false"
+	equation %boolean "false"
+	multiplechoice %boolean "false"
+	multipleanswer %boolean "false"
 	keys CDATA #IMPLIED
 >
+
+<!ATTLIST part
+	id	ID #REQUIRED
+	numeric %boolean "false"
+	analytic %boolean "false"
+	essay %boolean "false"
+	ranking %boolean "false"
+	categories %boolean "false"
+	equation %boolean "false"
+	multiplechoice %boolean "false"
+	multipleanswer %boolean "false"
+>
+
 
 <!ATTLIST choices
 	scramble %boolean; "false"
@@ -77,7 +115,10 @@ questiongroup -->
 	id	CDATA #REQUIRED
 	scramble %boolean; "true"
 	correct %boolean; "false"
->
+	rank CDATA #IMPLIED
+	weight CDATA #IMPLIED
+> <!-- rank is used only for ranking type questions>
+
 	
 <!ATTLIST choicenone
 	id	ID #REQUIRED
