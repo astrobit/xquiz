@@ -14,6 +14,22 @@ questiongroup -->
 <!ENTITY % html SYSTEM "http://www.w3.org/TR/html4/strict.dtd">
 %html; <!-- import HTML 4 -->
 
+<!-- override the HTML 4 attribute list for IMG to include scale-->
+<!ATTLIST IMG
+  %attrs;                              -- %coreattrs, %i18n, %events --
+  src         %URI;          #REQUIRED -- URI of image to embed --
+  alt         %Text;         #REQUIRED -- short description --
+  longdesc    %URI;          #IMPLIED  -- link to long description
+                                          (complements alt) --
+  name        CDATA          #IMPLIED  -- name of image for scripting --
+  height      %Length;       #IMPLIED  -- override height --
+  width       %Length;       #IMPLIED  -- override width --
+  usemap      %URI;          #IMPLIED  -- use client-side image map --
+  ismap       (ismap)        #IMPLIED  -- use server-side image map --
+  scale       CDATA          "1"       -- scale factor override --
+  >
+  
+
 <!ENTITY % quizinline "#PCDATA | %fontstyle; | %phrase; | %special; | BLOCKQUOTE | %list | HR | TABLE | ref | numref | equation">
 <!ENTITY mps "<equation>\frac{\mathrm{m}}{\mathrm{s}}</equation>">
 <!ENTITY mpss "<equation>\frac{\mathrm{m}}{\mathrm{s}^2}</equation>">
@@ -35,7 +51,8 @@ questiongroup -->
 <!ELEMENT hint (%quizinline;)*>
 <!ELEMENT feedback (%quizinline;)*>
 <!ELEMENT group (question*) -->
-<!ELEMENT question (author*, license, variable* ,calculation*, prompt, hint, part*, catergories?, choices?, solution?, note?)>
+<!ELEMENT instructornote (%quizinline;)*>
+<!ELEMENT question (author*, license, variable* ,calculation*, instructornote, prompt, hint, part*, catergories?, choices?, solution?, note?)>
 <!ELEMENT part (prompt, hint, part*, catergories?, choices?, solution?, note?)>
 <!ELEMENT prompt (%quizinline; | figure)*>
 <!ELEMENT catergories (category*) >
@@ -87,16 +104,10 @@ questiongroup -->
 >
 
 <!ATTLIST question
-	id	ID	#REQUIRED
-	numeric %boolean "false"
-	analytic %boolean "false"
-	essay %boolean "false"
-	ranking %boolean "false"
-	categories %boolean "false"
-	equation %boolean "false"
-	multiplechoice %boolean "false"
-	multipleanswer %boolean "false"
-	keys CDATA #IMPLIED
+	id	ID	#REQUIRED -- identifier for referening the question. ID must be unique -- 
+	keys CDATA #IMPLIED -- comma separated list of keys or tags for the type of problem --
+	difficulty CDATA #IMPLIED -- estimated difficulty of the problem --
+	timerequired CDATA #IMPLIED -- estimated time to work on the problem --  
 >
 
 <!ATTLIST part
