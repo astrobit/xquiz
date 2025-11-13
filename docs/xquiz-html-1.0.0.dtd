@@ -438,7 +438,7 @@ https://www.w3.org/TR/html4/strict.dtd -->
    "a | img | object | br | q | sub | sup | span | bdo">
 
 <!-- %inline; covers inline or "text-level" elements -->
-<!ENTITY % inline "#PCDATA | %fontstyle; | %phrase; | %special; | %formctrl;">
+<!ENTITY % inline "#PCDATA | %fontstyle; | %phrase; | %special;">
 
 <!ELEMENT (%fontstyle;|%phrase;) - - (%inline;)*>
 <!ATTLIST (%fontstyle;|%phrase;)
@@ -575,7 +575,7 @@ https://www.w3.org/TR/html4/strict.dtd -->
 <!--=================== Preformatted Text ================================-->
 
 <!-- excludes markup for images and changes in font size -->
-<!ENTITY % pre.exclusion "img|OBJECT|BIG|SMALL|sub|sup">
+<!ENTITY % pre.exclusion "img|object|big|small|sub|sup">
 
 <!ELEMENT pre - - (%inline;)* -(%pre.exclusion;) -- preformatted text -->
 <!ATTLIST pre

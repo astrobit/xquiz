@@ -19,12 +19,13 @@ questiongroup -->
 <!ENTITY mpss "<equation>\frac{\mathrm{m}}{\mathrm{s}^2}</equation>">
 
 <!ELEMENT bank ((variantset|constant)*,(question|group)+) >
-<!ELEMENT variantset (variant*)>
-<!ELEMENT variant (%quizinline;)*>
-<!ELEMENT varref EMPTY > <-- a reference to a variantset
-<!ELEMENT latex (CDATA)>
+
 <!ELEMENT author (#PCDATA | A)*>
 <!ELEMENT license (#PCDATA | A)*>
+<!ELEMENT latex (CDATA)>
+<!ELEMENT variantset (variant*)>
+<!ELEMENT variant (%quizinline;)*>
+<!ELEMENT variantref EMPTY -- a reference to a variantset-- >
 <!ELEMENT constant EMPTY> <!-- a constant value -->
 <!ELEMENT variable EMPTY> <!-- information about a variable quantity -->
 <!ELEMENT equation #PCDATA> <!-- an equation to be typeset using Mathjax/latex-->
@@ -62,7 +63,7 @@ questiongroup -->
 <!ATTLIST variant
 	id		CDATA #IMPLIED>
 
-<!ATTLIST varref
+<!ATTLIST variantref
 	id		CDATA #IMPLIED
 	idref	CDATA #REQUIRED
 >
@@ -122,6 +123,7 @@ questiongroup -->
 	equation %boolean "false"
 	multiplechoice %boolean "false"
 	multipleanswer %boolean "false"
+	weight CDATA #IMPLIED
 >
 
 
@@ -161,8 +163,4 @@ questiongroup -->
 
 <!ATTLIST ref
 	id CDATAS #REQUIRED
->
-
-<!ATTLIST label
-	id ID #REQUIRED
 >
