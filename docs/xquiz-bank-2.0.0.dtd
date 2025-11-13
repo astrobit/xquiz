@@ -11,31 +11,18 @@ astronaos.com -->
 equation, calculated, numref, caption, subfigure, ref, hint, feedback, 
 questiongroup -->
 
-<!ENTITY % html SYSTEM "http://www.w3.org/TR/html4/strict.dtd">
-%html; <!-- import HTML 4 -->
+<!ENTITY % html SYSTEM "https://github.com/astrobit/xquiz/blob/master/docs/xquiz-html-1.0.0.dtd?raw=true">
+%html; <!-- import pseudo-html -->
 
-<!-- override the HTML 4 attribute list for IMG to include scale-->
-<!ATTLIST IMG
-  %attrs;                              -- %coreattrs, %i18n, %events --
-  src         %URI;          #REQUIRED -- URI of image to embed --
-  alt         %Text;         #REQUIRED -- short description --
-  longdesc    %URI;          #IMPLIED  -- link to long description
-                                          (complements alt) --
-  name        CDATA          #IMPLIED  -- name of image for scripting --
-  height      %Length;       #IMPLIED  -- override height --
-  width       %Length;       #IMPLIED  -- override width --
-  usemap      %URI;          #IMPLIED  -- use client-side image map --
-  ismap       (ismap)        #IMPLIED  -- use server-side image map --
-  scale       CDATA          "1"       -- scale factor override --
-  >
-  
-
-<!ENTITY % quizinline "#PCDATA | %fontstyle; | %phrase; | %special; | BLOCKQUOTE | %list | HR | TABLE | ref | numref | equation">
+<!ENTITY % quizinline "#PCDATA | %fontstyle; | %phrase; | %special; | blockquote | %list | hr | table | ref | numref | varref | equation | vspace | hspace | latex">
 <!ENTITY mps "<equation>\frac{\mathrm{m}}{\mathrm{s}}</equation>">
 <!ENTITY mpss "<equation>\frac{\mathrm{m}}{\mathrm{s}^2}</equation>">
 
-<!ELEMENT bank (constant|question|group)+ >
-
+<!ELEMENT bank ((variantset|constant)*,(question|group)+) >
+<!ELEMENT variantset (variant*)>
+<!ELEMENT variant (%quizinline;)*>
+<!ELEMENT varref EMPTY > <-- a reference to a variantset
+<!ELEMENT latex (CDATA)>
 <!ELEMENT author (#PCDATA | A)*>
 <!ELEMENT license (#PCDATA | A)*>
 <!ELEMENT constant EMPTY> <!-- a constant value -->
@@ -50,7 +37,7 @@ questiongroup -->
 <!ELEMENT fillin EMPTY> <!-- inserts a space for a word to be filled in -->
 <!ELEMENT hint (%quizinline;)*>
 <!ELEMENT feedback (%quizinline;)*>
-<!ELEMENT group (question*) -->
+<!ELEMENT group (question|group)*>
 <!ELEMENT instructornote (%quizinline;)*>
 <!ELEMENT question (author*, license, variable* ,calculation*, instructornote, prompt, hint, part*, catergories?, choices?, solution?, note?)>
 <!ELEMENT part (prompt, hint, part*, catergories?, choices?, solution?, note?)>
@@ -68,6 +55,21 @@ questiongroup -->
 <!ENTITY % boolean "(true | false)">
 <!ATTLIST bank
 	id		CDATA #REQUIRED>
+
+<!ATTLIST variantset
+	id		CDATA #REQUIRED>
+
+<!ATTLIST variant
+	id		CDATA #IMPLIED>
+
+<!ATTLIST varref
+	id		CDATA #IMPLIED
+	idref	CDATA #REQUIRED
+>
+
+<!ATTLIST latex
+	id		CDATA #IMPLIED
+>
 
 <!ATTLIST figure
 	titled %boolean "false"
@@ -131,9 +133,9 @@ questiongroup -->
 	id	CDATA #REQUIRED
 	scramble %boolean; "true"
 	correct %boolean; "false"
-	rank CDATA #IMPLIED
+	rank CDATA #IMPLIED -- rank is used only for ranking type questions--
 	weight CDATA #IMPLIED
-> <!-- rank is used only for ranking type questions>
+> 
 
 	
 <!ATTLIST choicenone

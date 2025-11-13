@@ -1,12 +1,12 @@
-<!-- This is the reference data for a quiz as used by xquiz. The official DTD is currently stored at https://www.astronaos.com/xquiz-instance-1.0.0.dtd -->
+<!-- This is the reference data for a quiz as used by xquiz. The official DTD is currently stored at https://github.com/astrobit/xquiz/blob/master/docs/xquiz-instance-1.0.0.dtd -->
 <!-- version history -->
 <!-- 1.0: first version-->
 <!-- DTD version 1.0 -->
 
-<!ENTITY % quiz SYSTEM "https://www.astronaos.com/xquiz-2.0.0.dtd">
-%quiz; <!-- import xquiz bank -->
+<!ENTITY % bank SYSTEM "https://github.com/astrobit/xquiz/blob/master/docs/xquiz-2.0.0.dtd?raw=true">
+%bank; <!-- import xquiz bank -->
 
-<!ELEMENT quizinstance (title,instructions,questions)>
-<!ELEMENT formvalue EMPTY > <!-- place for form code to appear -->
+<!ELEMENT quizinstance (title,instructions,instancequestions)>
+<!ELEMENT instancequestions (question)
 
 

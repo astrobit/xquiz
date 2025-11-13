@@ -6,7 +6,7 @@
 <!-- 2.0: added remove all non-quiz specific tags and import bank  -->
 <!-- DTD version 2.0 -->
 
-<!ENTITY % bank SYSTEM "https://www.astronaos.com/xquiz-bank-2.0.0.dtd">
+<!ENTITY % bank SYSTEM "https://github.com/astrobit/xquiz/blob/master/docs/xquiz-bank-2.0.0.dtd?raw=true">
 %bank; <!-- import xquiz bank -->
 
 <!ELEMENT bankref EMPTY >
