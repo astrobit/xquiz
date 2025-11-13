@@ -1,0 +1,413 @@
+<?xml version="1.0"?>
+<!DOCTYPE schema [
+<!ENTITY mps "<equation>\frac{\mathrm{m}}{\mathrm{s}}</equation>">
+<!ENTITY mpss "<equation>\frac{\mathrm{m}}{\mathrm{s}^2}</equation>">
+]>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+targetNamespace="https://www.w3schools.com/schema">
+
+<xs:include schemaLocation="https://github.com/astrobit/xquiz/blob/master/docs/xquiz-html-1.0.0.xsd?raw=true"/>
+
+<!--================================ Simple Types============================-->
+<xs:simpleType name="numeric">
+<xs:restriction base="xs:string">
+      <xs:pattern value="(+-)?([0-9])+(.([0-9])*)?((eE(+-)([0-9])+)?"/>
+    </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="smallNumeric">
+<xs:restriction base="xs:string">
+      <xs:pattern value="(+-)?([0-9])+(.([0-9])*)?"/>
+    </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="smallPositiveNumeric">
+<xs:restriction base="xs:string">
+      <xs:pattern value="([0-9])+(.([0-9])*)?"/>
+    </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="randDistType">
+	<xs:restriction base="xs:string">
+		<xs:enumeration value="tophat"/>
+		<xs:enumeration value="gaussian"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="conjunctionType">
+	<xs:restriction base="xs:string">
+		<xs:enumeration value="and"/>
+		<xs:enumeration value="or"/>
+		<xs:enumeration value="andor"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="layoutType">
+	<xs:restriction base="xs:string">
+		<xs:enumeration value="horizontal"/>
+		<xs:enumeration value="vertical"/>
+		<xs:enumeration value="rectangular"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="keyListType">
+	<xs:list itemType="xs:string"/>
+</xs:simpleType>
+
+<xs:group name="quizinline">
+	<xs:group ref="flow"/>
+	<xs:element ref="ref"/>
+	<xs:element ref="numref"/>
+	<xs:element ref="variantref"/>
+	<xs:element ref="equation"/>
+	<xs:element ref="vspace"/>
+	<xs:element ref="hspace"/>
+	<xs:element ref="latex"/>
+</xs:group>
+<!--================================ Complex Types ============================-->
+
+<xs:complexType name="quizinlineType" mixed="true">
+	<xs:choice maxOccurs="unbounded">
+		<xs:group ref="quizinline"/>
+	</xs:choice>
+	<xs:attribute name="id" type="xs:ID"/>
+</xs:complexType>
+<!--================================ Elements ============================-->
+
+<xs:element name="bank">
+	<xs:complexType>
+		<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="variantset"/>
+					<xs:element ref="constant"/>
+				</xs:choice>
+				<xs:choice minOccurs="1" maxOccurs="unbounded">
+					<xs:element ref="question"/>
+					<xs:element ref="group"/>
+				</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:ID" use="required"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="author">
+	<xs:complexType mixed="true">
+		<xs:sequence  minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="a"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="license">
+	<xs:complexType mixed="true">
+		<xs:sequence  minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="a"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="latex" type="xs:string"/>
+
+<xs:element name="variantset">
+	<xs:complexType>
+		<xs:sequence minOccurs="1" maxOccurs="unbounded">
+			<xs:element ref="variant"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="variant" type="quizinlineType"/>
+
+<xs:element name="variantref">
+	<xs:complexType>
+		<xs:attribute name="id" type="xs:ID"/>
+		<xs:attribute name="idref" type="xs:IDREF" use="required"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="constant">
+	<xs:complexType>
+		<xs:attribute name="id" type="xs:ID" use="required"/>
+		<xs:attribute name="value" type="numeric" use="required"/>
+		<xs:attribute name="units" type="xs:string"/>
+	</xs:complexType>
+</xs:element>
+
+
+<xs:element name="variable">
+	<xs:complexType>
+		<xs:attribute name="id" type="xs:ID" use="required"/>
+		<xs:attribute name="min" type="numeric" use="required"/>
+		<xs:attribute name="max" type="numeric" use="required"/>
+		<xs:attribute name="round" type="numeric" use="required"/>
+		<xs:attribute name="dist" type="randDistType" default="tophat"/>
+		<xs:attribute name="units" type="xs:string"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="equation">
+	<xs:complexType mixed="true">
+		<xs:attribute name="id" type="xs:ID"/>
+		<xs:attribute name="offset" type="xs:boolean" default="false"/>
+		<xs:attribute name="numbered" type="xs:boolean" default="false"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="calculated">
+	<xs:complexType mixed="true">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="numref"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:ID" use="required"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="numref">
+	<xs:complexType>
+		<xs:attribute name="id" type="xs:ID"/>
+		<xs:attribute name="idref" type="xs:IDREF" use="required"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="ref">
+	<xs:complexType>
+		<xs:attribute name="id" type="xs:ID"/>
+		<xs:attribute name="idref" type="xs:IDREF" use="required"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="fillin"/>
+
+<xs:element name="hint" type="quizinlineType"/>
+<xs:element name="feedback" type="quizinlineType"/>
+<xs:element name="instructornote" type="quizinlineType"/>
+<xs:element name="note" type="quizinlineType"/>
+<xs:element name="solution" type="quizinlineType"/>
+<xs:element name="vspace">
+	<xs:complexType>
+		<xs:attribute name="size" type="xs:string" use="required"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="hspace" type="quizinlineType">
+	<xs:complexType>
+		<xs:attribute name="size" type="xs:string" use="required"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="figure">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:choice>
+				<xs:sequence minOccurs="0" maxOccurs="unbounded">
+					<xs:element ref="subfigure"/>
+				</xs:sequence>
+				<xs:element ref="img"/>
+			</xs:choice>
+			<xs:sequence minOccurs="0">
+				<xs:element ref="caption"/>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:ID"/>
+		<xs:attribute name="titled" type="xs:boolean" default="false"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="subfigure">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:sequence>
+				<xs:element ref="img"/>
+			</xs:sequence>
+			<xs:sequence minOccurs="0">
+				<xs:element ref="caption"/>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:ID"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="group">
+	<xs:complexType>
+		<xs:choice maxOccurs="unbounded">
+			<xs:element ref="question"/>
+			<xs:element ref="group"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:ID" use="required"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="question">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="license"/>
+			</xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="1">
+				<xs:element ref="author"/>
+			</xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="variable"/>
+			</xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="calculation"/>
+			</xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="1">
+				<xs:element ref="instructornote"/>
+			</xs:sequence>
+			<xs:sequence minOccurs="1" maxOccurs="1">
+				<xs:element ref="prompt"/>
+			</xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="1">
+				<xs:element ref="hint"/>
+			</xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="part"/>
+			</xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="1">
+				<xs:element ref="catergories"/>
+			</xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="1">
+				<xs:element ref="choices"/>
+			</xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="1">
+				<xs:element ref="solution"/>
+			</xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="1">
+				<xs:element ref="note"/>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:ID" use="required"/>
+		<xs:attribute name="keys" type="keyListType"/>
+		<xs:attribute name="difficulty" type="xs:string"/>
+		<xs:attribute name="timerequired" type="xs:string"/>
+		<xs:attribute name="weight" type="smallPositiveNumeric"/>
+	</xs:complexType>
+</xs:element>
+
+
+<xs:element name="part">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:sequence minOccurs="1" maxOccurs="1">
+				<xs:element ref="prompt"/>
+			</xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="1">
+				<xs:element ref="hint"/>
+			</xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="part"/>
+			</xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="1">
+				<xs:element ref="catergories"/>
+			</xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="1">
+				<xs:element ref="choices"/>
+			</xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="1">
+				<xs:element ref="solution"/>
+			</xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="1">
+				<xs:element ref="note"/>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:ID"  use="required"/>
+		<xs:attribute name="weight" type="smallPositiveNumeric" default="1"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="prompt">
+	<xs:complexType mixed="true">
+		<xs:choice maxOccurs="unbounded">
+			<xs:group ref="quizinline"/>
+			<xs:element ref="figure"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:ID"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="catergories">
+	<xs:complexType>
+		<xs:choice maxOccurs="unbounded">
+			<xs:element ref="category"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:ID"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="catergory">
+	<xs:complexType>
+		<xs:choice minOccurs="2" maxOccurs="unbounded">
+			<xs:element ref="choice"/>
+		</xs:choice>
+		<xs:attribute name="id" type="xs:ID" use="required"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="choices">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:sequence minOccurs="2" maxOccurs="unbounded">
+				<xs:element ref="choice"/>
+			</xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="1">
+				<xs:element ref="choiceall"/>
+			</xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="choicesome"/>
+			</xs:sequence>
+			<xs:sequence minOccurs="0" maxOccurs="1">
+				<xs:element ref="choicenone"/>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="scramble" type="xs:boolean" default="true"/>
+		<xs:attribute name="layout" type="layoutType" default="vertical"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="choice">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:sequence maxOccurs="unbounded">
+				<xs:group ref="quizinline"/>
+			</xs:sequence>
+			<xs:sequence maxOccurs="1">
+				<xs:element ref="feedback"/>
+			</xs:sequence>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:ID" use="required"/>
+		<xs:attribute name="scramble" type="xs:boolean" default="true"/>
+		<xs:attribute name="correct" type="xs:boolean" default="false"/>
+		<xs:attribute name="rank" type="xs:positiveInteger" default="1"/>
+		<xs:attribute name="weight" type="smallPositiveNumeric" default="0"/>
+	</xs:complexType>
+</xs:element>				
+<xs:element name="choicenone">
+	<xs:complexType>
+		<xs:attribute name="id" type="xs:ID" use="required"/>
+		<xs:attribute name="correct" type="xs:boolean" default="false"/>
+		<xs:attribute name="weight" type="smallPositiveNumeric" default="0"/>
+	</xs:complexType>
+</xs:element>				
+
+
+<xs:element name="choiceall">
+	<xs:complexType>
+		<xs:attribute name="id" type="xs:ID" use="required"/>
+		<xs:attribute name="correct" type="xs:boolean" default="false"/>
+		<xs:attribute name="weight" type="smallPositiveNumeric" default="0"/>
+	</xs:complexType>
+</xs:element>		
+		
+		
+<xs:element name="choicesome">
+	<xs:complexType>
+		<xs:attribute name="id" type="xs:ID" use="required"/>
+		<xs:attribute name="idrefs" type="xs:IDREFS" use="required"/>
+		<xs:attribute name="correct" type="xs:boolean" default="false"/>
+		<xs:attribute name="weight" type="smallPositiveNumeric" default="0"/>
+		<xs:attribute name="conjunction" type="conjunctionType" default="and"/>
+	</xs:complexType>
+</xs:element>		
+
+</xs:schema>
