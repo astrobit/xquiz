@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
-<!DOCTYPE schema [
-<!ENTITY mps "<equation>\frac{\mathrm{m}}{\mathrm{s}}</equation>">
-<!ENTITY mpss "<equation>\frac{\mathrm{m}}{\mathrm{s}^2}</equation>">
-]>
+<!DOCTYPE schema PUBLIC "-//B.W.Mulligan//ENT Quiz v1.0//EN" "https://github.com/astrobit/xquiz/blob/master/docs/xquiz-1.0.0.ent?raw=true">
+
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 targetNamespace="https://www.w3schools.com/schema">
 
@@ -54,6 +52,15 @@ targetNamespace="https://www.w3schools.com/schema">
 	<xs:list itemType="xs:string"/>
 </xs:simpleType>
 
+<xs:simpleType name="SIprefixType">
+	<xs:restriction base="xs:string">
+		<xs:pattern value="(2RYZEPTGMkhdcmμunpfazyrq)"/>
+	</xs:restriction>
+</xs:simpleType>
+
+<!--================================ Complex Types ============================-->
+
+
 <xs:group name="quizinline">
 	<xs:group ref="flow"/>
 	<xs:element ref="ref"/>
@@ -64,7 +71,6 @@ targetNamespace="https://www.w3schools.com/schema">
 	<xs:element ref="hspace"/>
 	<xs:element ref="latex"/>
 </xs:group>
-<!--================================ Complex Types ============================-->
 
 <xs:complexType name="quizinlineType" mixed="true">
 	<xs:choice maxOccurs="unbounded">
@@ -72,6 +78,50 @@ targetNamespace="https://www.w3schools.com/schema">
 	</xs:choice>
 	<xs:attribute name="id" type="xs:ID"/>
 </xs:complexType>
+
+<xs:complexType name="SIunitType">
+	<xs:attribute name="prefix" type="SIprefixType"/>
+	<xs:attribute name="power" type="xs:integer" default="1"/>
+</xs:complexType>
+
+<!--================================ Units and Combinations ============================-->
+
+<xs:element name="meters" type="SIunitType"/>
+<xs:element name="grams" type="SIunitType"/>
+<xs:element name="seconds" type="SIunitType"/>
+<xs:element name="Newtons" type="SIunitType"/>
+<xs:element name="Joules" type="SIunitType"/>
+<xs:element name="Watts" type="SIunitType"/>
+<xs:element name="Kelvin" type="SIunitType"/>
+<xs:element name="Celsius" type="SIunitType"/>
+<xs:element name="Coulombs" type="SIunitType"/>
+<xs:element name="Amperes" type="SIunitType"/>
+<xs:element name="Ohms" type="SIunitType"/>
+<xs:element name="Pascals" type="SIunitType"/>
+<xs:element name="Weber" type="SIunitType"/>
+<xs:element name="Hertz" type="SIunitType"/>
+<xs:element name="Henry" type="SIunitType"/>
+<xs:element name="Farad" type="SIunitType"/>
+<xs:element name="mole" type="SIunitType"/>
+<xs:element name="candela" type="SIunitType"/>
+<xs:element name="electromVolt" type="SIunitType"/>
+<xs:element name="Volt" type="SIunitType"/>
+<xs:element name="Tesla" type="SIunitType"/>
+<xs:element name="lumen" type="SIunitType"/>
+<xs:element name="lux" type="SIunitType"/>
+<xs:element name="Bequerel" type="SIunitType"/>
+<xs:element name="Gray" type="SIunitType"/>
+<xs:element name="Sievert" type="SIunitType"/>
+<xs:element name="Siemens" type="SIunitType"/>
+<xs:element name="radians" type="SIunitType"/>
+<xs:element name="steradians" type="SIunitType"/>
+
+<xs:element name="kg"/> <!-- kilograms (kg) -->
+<xs:element name="mps"/> <!-- velocity: m/s -->
+<xs:element name="mpss"/> <!-- acceleration: m/s^2 -->
+<xs:element name="kgmps"/> <!-- momentum: kg m/s -->
+<xs:element name="Nm"/>
+
 <!--================================ Elements ============================-->
 
 <xs:element name="bank">
