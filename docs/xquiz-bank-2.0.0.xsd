@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<!DOCTYPE schema PUBLIC "-//B.W.Mulligan//ENT Quiz v1.0//EN" "https://github.com/astrobit/xquiz/blob/master/docs/xquiz-1.0.0.ent?raw=true">
 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
 targetNamespace="https://www.w3schools.com/schema">
@@ -61,6 +60,44 @@ targetNamespace="https://www.w3schools.com/schema">
 <!--================================ Complex Types ============================-->
 
 
+<xs:group name="units">
+<xs:element ref="meters"/>
+<xs:element ref="grams"/>
+<xs:element ref="seconds"/>
+<xs:element ref="Newtons"/>
+<xs:element ref="Joules"/>
+<xs:element ref="Watts"/>
+<xs:element ref="Kelvin"/>
+<xs:element ref="Celsius"/>
+<xs:element ref="Coulombs"/>
+<xs:element ref="Amperes"/>
+<xs:element ref="Ohms"/>
+<xs:element ref="Pascals"/>
+<xs:element ref="Weber"/>
+<xs:element ref="Hertz"/>
+<xs:element ref="Henry"/>
+<xs:element ref="Farad"/>
+<xs:element ref="mole"/>
+<xs:element ref="candela"/>
+<xs:element ref="electromVolt"/>
+<xs:element ref="Volt"/>
+<xs:element ref="Tesla"/>
+<xs:element ref="lumen"/>
+<xs:element ref="lux"/>
+<xs:element ref="Bequerel"/>
+<xs:element ref="Gray"/>
+<xs:element ref="Sievert"/>
+<xs:element ref="Siemens"/>
+<xs:element ref="radians"/>
+<xs:element ref="steradians"/>
+
+<xs:element ref="kg"/> <!-- kilograms (kg) -->
+<xs:element ref="mps"/> <!-- velocity: m/s -->
+<xs:element ref="mpss"/> <!-- acceleration: m/s^2 -->
+<xs:element ref="kgmps"/> <!-- momentum: kg m/s -->
+<xs:element ref="Nm"/>
+</xs:group>
+
 <xs:group name="quizinline">
 	<xs:group ref="flow"/>
 	<xs:element ref="ref"/>
@@ -70,7 +107,9 @@ targetNamespace="https://www.w3schools.com/schema">
 	<xs:element ref="vspace"/>
 	<xs:element ref="hspace"/>
 	<xs:element ref="latex"/>
+	<xs:element ref="units"/>
 </xs:group>
+
 
 <xs:complexType name="quizinlineType" mixed="true">
 	<xs:choice maxOccurs="unbounded">
@@ -120,9 +159,15 @@ targetNamespace="https://www.w3schools.com/schema">
 <xs:element name="mps"/> <!-- velocity: m/s -->
 <xs:element name="mpss"/> <!-- acceleration: m/s^2 -->
 <xs:element name="kgmps"/> <!-- momentum: kg m/s -->
-<xs:element name="Nm"/>
+<xs:element name="Nm"/><!-- torque: N m -->
+<xs:element name="Js"/><!-- impulse: J s -->
 
+<!--================================ typesetting ============================-->
+
+<xs:element name="percent"/>
+<xs:element name="emdash"/>
 <!--================================ Elements ============================-->
+<xs:element name="endash"/>
 
 <xs:element name="bank">
 	<xs:complexType>
