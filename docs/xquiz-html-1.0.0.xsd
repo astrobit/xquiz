@@ -163,6 +163,19 @@
 	</xs:restriction>
 </xs:simpleType>
 
+<!-- valid image types allowed -->
+
+<xs:simpleType name="imageTypes">
+	<xs:restriction base="xs:string">
+		<xs:enumeration value="png"/>
+		<xs:enumeration value="PNG"/>
+		<xs:enumeration value="jpg"/>
+		<xs:enumeration value="JPG"/>
+		<xs:enumeration value="pdf"/>
+		<xs:enumeration value="PDF"/>
+	</xs:restriction>
+</xs:simpleType>
+
 <!--=================== Generic Attributes ===============================-->
 
 <xs:attributeGroup name="coreattrs">
@@ -258,6 +271,8 @@
 		<xs:element ref="q"/>
 		<xs:element ref="span"/>
 		<xs:element ref="bdo"/>
+		<xs:element ref="hspace"/>
+		<xs:element ref="vspace"/>
 	</xs:choice>
 </xs:group>
 
@@ -397,6 +412,18 @@
 	</xs:complexType>
 </xs:element>
 
+<!--================== Special for xquiz ================================-->
+<xs:element name="vspace">
+	<xs:complexType>
+		<xs:attribute name="size" type="xs:string" use="required"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="hspace">
+	<xs:complexType>
+		<xs:attribute name="size" type="xs:string" use="required"/>
+	</xs:complexType>
+</xs:element>
 
 
 <!--================== The Anchor Element ================================-->
@@ -430,9 +457,20 @@
 		<xs:attribute name="height" type="Length"/>
 		<xs:attribute name="width" type="Length"/>
 		<xs:attribute name="scale" type="xs:decimal"/>
+		<xs:sequence minOccurs="0" maxOccurs="1">
+			<xs:element ref="imageContents"/>
+		</xs:sequence>
 	</xs:complexType>
 </xs:element>
 
+<!--=================== Image Contents ===========================================-->
+<xs:element name="imageContents">
+	<xs:complexType>
+		<xs:extension base="xs:base64Binary">
+			<xs:attribute name="imagetype" type="imageTypes"/>
+		</xs:extension>
+	</xs:complexType>
+</xs:element>
 
 <!--=================== Horizontal Rule ==================================-->
 

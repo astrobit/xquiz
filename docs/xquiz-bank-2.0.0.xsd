@@ -182,6 +182,7 @@ targetNamespace="https://www.w3schools.com/schema">
 				</xs:choice>
 		</xs:sequence>
 		<xs:attribute name="id" type="xs:ID" use="required"/>
+		<xs:attribute name="imagepath" type="xs:string" use="optional"/>
 	</xs:complexType>
 </xs:element>
 
@@ -278,17 +279,6 @@ targetNamespace="https://www.w3schools.com/schema">
 <xs:element name="instructornote" type="quizinlineType"/>
 <xs:element name="note" type="quizinlineType"/>
 <xs:element name="solution" type="quizinlineType"/>
-<xs:element name="vspace">
-	<xs:complexType>
-		<xs:attribute name="size" type="xs:string" use="required"/>
-	</xs:complexType>
-</xs:element>
-
-<xs:element name="hspace" type="quizinlineType">
-	<xs:complexType>
-		<xs:attribute name="size" type="xs:string" use="required"/>
-	</xs:complexType>
-</xs:element>
 
 <xs:element name="figure">
 	<xs:complexType>
@@ -341,12 +331,11 @@ targetNamespace="https://www.w3schools.com/schema">
 			<xs:sequence minOccurs="0" maxOccurs="1">
 				<xs:element ref="author"/>
 			</xs:sequence>
-			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:choose minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="constant"/>
 				<xs:element ref="variable"/>
-			</xs:sequence>
-			<xs:sequence minOccurs="0" maxOccurs="unbounded">
 				<xs:element ref="calculation"/>
-			</xs:sequence>
+			</xs:choose>
 			<xs:sequence minOccurs="0" maxOccurs="1">
 				<xs:element ref="instructornote"/>
 			</xs:sequence>
@@ -377,6 +366,7 @@ targetNamespace="https://www.w3schools.com/schema">
 		<xs:attribute name="difficulty" type="xs:string"/>
 		<xs:attribute name="timerequired" type="xs:string"/>
 		<xs:attribute name="weight" type="smallPositiveNumeric"/>
+		<xs:attribute name="title" type="xs:string"/>
 	</xs:complexType>
 </xs:element>
 
@@ -466,7 +456,7 @@ targetNamespace="https://www.w3schools.com/schema">
 			<xs:sequence maxOccurs="unbounded">
 				<xs:group ref="quizinline"/>
 			</xs:sequence>
-			<xs:sequence maxOccurs="1">
+			<xs:sequence minOccurs="0" maxOccurs="1">
 				<xs:element ref="feedback"/>
 			</xs:sequence>
 		</xs:sequence>
