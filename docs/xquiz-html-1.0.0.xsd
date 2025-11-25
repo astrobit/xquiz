@@ -279,7 +279,7 @@
 <xs:group name="special">
 	<xs:choice>
 		<xs:group ref="special.pre"/>
-		<xs:element ref="img"/>
+		<xs:element ref="imgref"/>
 		<xs:element ref="object"/>
 		<xs:element ref="sub"/>
 		<xs:element ref="sup"/>
@@ -447,27 +447,36 @@
 
 <!--=================== Images ===========================================-->
 
-<xs:element name="img">
+<xs:element name="imgref">
 	<xs:complexType>
 		<xs:attributeGroup ref="attrs"/>
-		<xs:attribute name="src" type="URI"/>
-		<xs:attribute name="alt" type="Text"/>
-		<xs:attribute name="longdesc" type="URI"/>
-		<xs:attribute name="name" type="xs:string"/>
-		<xs:attribute name="height" type="Length"/>
-		<xs:attribute name="width" type="Length"/>
-		<xs:attribute name="scale" type="xs:decimal"/>
-		<xs:sequence minOccurs="0" maxOccurs="1">
-			<xs:element ref="imageContents"/>
-		</xs:sequence>
+		<xs:attribute name="height" type="Length" use="optional"/>
+		<xs:attribute name="width" type="Length" use="optional"/>
+		<xs:attribute name="scale" type="xs:decimal" use="optional"/>
+		<xs:attribute name="alt" type="Text" use="optional"/>
+		<xs:attribute name="longdesc" type="URI" use="optional"/>
 	</xs:complexType>
 </xs:element>
 
-<!--=================== Image Contents ===========================================-->
-<xs:element name="imageContents">
+<!--=================== Image Dictionary and Image Contents ===========================================-->
+
+<xs:element name="imagedict">
+	<xs:complexType>
+		<xs:sequence minOccurs="1" maxOccurs="unbounded">
+			<xs:element ref="image"/>
+		</xs:sequence>
+		<xs:attribute name="imagepath" type="xs:string" use="optional"/>
+	</xs:complexType>
+</xs:element>
+
+<xs:element name="image">
 	<xs:complexType>
 		<xs:extension base="xs:base64Binary">
-			<xs:attribute name="imagetype" type="imageTypes"/>
+			<xs:attribute name="id" type="xs:ID" use="required"/>
+			<xs:attribute name="src" type="xs:string" use="required"/>
+			<xs:attribute name="imagetype" type="imageTypes" use="required"/>
+			<xs:attribute name="alt" type="Text" use="optional"/>
+			<xs:attribute name="longdesc" type="URI" use="optional"/>
 		</xs:extension>
 	</xs:complexType>
 </xs:element>

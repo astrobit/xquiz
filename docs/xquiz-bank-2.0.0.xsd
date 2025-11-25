@@ -180,9 +180,11 @@ targetNamespace="https://www.w3schools.com/schema">
 					<xs:element ref="question"/>
 					<xs:element ref="group"/>
 				</xs:choice>
+				<xs:sequence minOccurs="0" maxOccurs="1">
+					<xs:element ref="imagedict"/>
+				</xs:sequence>
 		</xs:sequence>
 		<xs:attribute name="id" type="xs:ID" use="required"/>
-		<xs:attribute name="imagepath" type="xs:string" use="optional"/>
 	</xs:complexType>
 </xs:element>
 
@@ -287,7 +289,7 @@ targetNamespace="https://www.w3schools.com/schema">
 				<xs:sequence minOccurs="0" maxOccurs="unbounded">
 					<xs:element ref="subfigure"/>
 				</xs:sequence>
-				<xs:element ref="img"/>
+				<xs:element ref="imgref"/>
 			</xs:choice>
 			<xs:sequence minOccurs="0">
 				<xs:element ref="caption"/>
@@ -302,7 +304,7 @@ targetNamespace="https://www.w3schools.com/schema">
 	<xs:complexType>
 		<xs:sequence>
 			<xs:sequence>
-				<xs:element ref="img"/>
+				<xs:element ref="imgref"/>
 			</xs:sequence>
 			<xs:sequence minOccurs="0">
 				<xs:element ref="caption"/>
