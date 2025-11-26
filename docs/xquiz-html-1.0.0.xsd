@@ -591,20 +591,14 @@
 <xs:element name="table">
 	<xs:complexType>
 		<xs:sequence>
-			<xs:sequence minOccurs="0">
-				<xs:element ref="caption"/>
-			</xs:sequence>
+			<xs:element ref="caption" minOccurs="0" maxOccurs="1"/>
 			<xs:choice minOccurs="0" maxOccurs="unbounded">
 				<xs:element ref="col"/>			
 				<xs:element ref="colgroup"/>
 			</xs:choice>			
-			<xs:sequence minOccurs="0">
-				<xs:element ref="thead"/>
-				<xs:element ref="tfoot"/>
-			</xs:sequence>
-			<xs:sequence minOccurs="1" maxOccurs="unbounded">
-				<xs:element ref="tbody"/>
-			</xs:sequence>
+			<xs:element ref="thead" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="tfoot" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="tbody" minOccurs="1" maxOccurs="unbounded"/>
 		</xs:sequence>		
 		<xs:attributeGroup ref="attrs"/>
 		<xs:attribute name="summary" type="Text"/>
