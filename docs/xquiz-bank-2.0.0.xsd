@@ -172,17 +172,13 @@ targetNamespace="https://www.w3schools.com/schema">
 <xs:element name="bank">
 	<xs:complexType>
 		<xs:sequence>
-				<xs:choice minOccurs="0" maxOccurs="unbounded">
-					<xs:element ref="variantset"/>
-					<xs:element ref="constant"/>
-				</xs:choice>
-				<xs:choice minOccurs="1" maxOccurs="unbounded">
-					<xs:element ref="question"/>
-					<xs:element ref="group"/>
-				</xs:choice>
-				<xs:sequence minOccurs="0" maxOccurs="1">
-					<xs:element ref="imagedict"/>
-				</xs:sequence>
+			<xs:element ref="variantset" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="constant" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:choice minOccurs="1" maxOccurs="unbounded">
+				<xs:element ref="question"/>
+				<xs:element ref="group"/>
+			</xs:choice>
+			<xs:element ref="imagedict" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
 		<xs:attribute name="id" type="xs:ID" use="required"/>
 	</xs:complexType>
@@ -286,14 +282,10 @@ targetNamespace="https://www.w3schools.com/schema">
 	<xs:complexType>
 		<xs:sequence>
 			<xs:choice>
-				<xs:sequence minOccurs="0" maxOccurs="unbounded">
-					<xs:element ref="subfigure"/>
-				</xs:sequence>
-				<xs:element ref="imgref"/>
+				<xs:element ref="subfigure" maxOccurs="unbounded"/>
+				<xs:element ref="imgref"  maxOccurs="1"/>
 			</xs:choice>
-			<xs:sequence minOccurs="0">
-				<xs:element ref="caption"/>
-			</xs:sequence>
+			<xs:element ref="caption" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
 		<xs:attribute name="id" type="xs:ID"/>
 		<xs:attribute name="titled" type="xs:boolean" default="false"/>
@@ -303,12 +295,8 @@ targetNamespace="https://www.w3schools.com/schema">
 <xs:element name="subfigure">
 	<xs:complexType>
 		<xs:sequence>
-			<xs:sequence>
-				<xs:element ref="imgref"/>
-			</xs:sequence>
-			<xs:sequence minOccurs="0">
-				<xs:element ref="caption"/>
-			</xs:sequence>
+			<xs:element ref="imgref" minOccurs="1" maxOccurs="1"/>
+			<xs:element ref="caption" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
 		<xs:attribute name="id" type="xs:ID"/>
 	</xs:complexType>
@@ -324,44 +312,33 @@ targetNamespace="https://www.w3schools.com/schema">
 	</xs:complexType>
 </xs:element>
 
+<xs:element name="numericanswer">
+	<xs:complexType>
+		<xs:attribute name="value" type="numeric" use="required"/>
+		<xs:attribute name="units" type="xs:string" use="optional"/>
+		<xs:attribute name="requireunits" type="xs:boolean" use="optional" default="false"/>
+	</xs:complexType>
+</xs:element>
+
 <xs:element name="question">
 	<xs:complexType>
 		<xs:sequence>
-			<xs:sequence minOccurs="0" maxOccurs="unbounded">
-				<xs:element ref="license"/>
-			</xs:sequence>
-			<xs:sequence minOccurs="0" maxOccurs="1">
-				<xs:element ref="author"/>
-			</xs:sequence>
+			<xs:element ref="license" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="author" minOccurs="0" maxOccurs="unbounded"/>
 			<xs:choose minOccurs="0" maxOccurs="unbounded">
 				<xs:element ref="constant"/>
 				<xs:element ref="variable"/>
 				<xs:element ref="calculation"/>
 			</xs:choose>
-			<xs:sequence minOccurs="0" maxOccurs="1">
-				<xs:element ref="instructornote"/>
-			</xs:sequence>
-			<xs:sequence minOccurs="1" maxOccurs="1">
-				<xs:element ref="prompt"/>
-			</xs:sequence>
-			<xs:sequence minOccurs="0" maxOccurs="1">
-				<xs:element ref="hint"/>
-			</xs:sequence>
-			<xs:sequence minOccurs="0" maxOccurs="unbounded">
-				<xs:element ref="part"/>
-			</xs:sequence>
-			<xs:sequence minOccurs="0" maxOccurs="1">
-				<xs:element ref="catergories"/>
-			</xs:sequence>
-			<xs:sequence minOccurs="0" maxOccurs="1">
-				<xs:element ref="choices"/>
-			</xs:sequence>
-			<xs:sequence minOccurs="0" maxOccurs="1">
-				<xs:element ref="solution"/>
-			</xs:sequence>
-			<xs:sequence minOccurs="0" maxOccurs="1">
-				<xs:element ref="note"/>
-			</xs:sequence>
+			<xs:element ref="instructornote" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="prompt" minOccurs="1" maxOccurs="1"/>
+			<xs:element ref="hint" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="part" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="catergories" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="choices" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="numericanswer" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="solution" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="note" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
 		<xs:attribute name="id" type="xs:ID" use="required"/>
 		<xs:attribute name="keys" type="keyListType"/>
@@ -376,27 +353,15 @@ targetNamespace="https://www.w3schools.com/schema">
 <xs:element name="part">
 	<xs:complexType>
 		<xs:sequence>
-			<xs:sequence minOccurs="1" maxOccurs="1">
-				<xs:element ref="prompt"/>
-			</xs:sequence>
-			<xs:sequence minOccurs="0" maxOccurs="1">
-				<xs:element ref="hint"/>
-			</xs:sequence>
-			<xs:sequence minOccurs="0" maxOccurs="unbounded">
-				<xs:element ref="part"/>
-			</xs:sequence>
-			<xs:sequence minOccurs="0" maxOccurs="1">
-				<xs:element ref="catergories"/>
-			</xs:sequence>
-			<xs:sequence minOccurs="0" maxOccurs="1">
-				<xs:element ref="choices"/>
-			</xs:sequence>
-			<xs:sequence minOccurs="0" maxOccurs="1">
-				<xs:element ref="solution"/>
-			</xs:sequence>
-			<xs:sequence minOccurs="0" maxOccurs="1">
-				<xs:element ref="note"/>
-			</xs:sequence>
+			<xs:element ref="instructornote" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="prompt" minOccurs="1" maxOccurs="1"/>
+			<xs:element ref="hint" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="part" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="catergories" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="choices" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="numericanswer" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="solution" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="note" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
 		<xs:attribute name="id" type="xs:ID"  use="required"/>
 		<xs:attribute name="weight" type="smallPositiveNumeric" default="1"/>
@@ -434,18 +399,10 @@ targetNamespace="https://www.w3schools.com/schema">
 <xs:element name="choices">
 	<xs:complexType>
 		<xs:sequence>
-			<xs:sequence minOccurs="2" maxOccurs="unbounded">
-				<xs:element ref="choice"/>
-			</xs:sequence>
-			<xs:sequence minOccurs="0" maxOccurs="1">
-				<xs:element ref="choiceall"/>
-			</xs:sequence>
-			<xs:sequence minOccurs="0" maxOccurs="unbounded">
-				<xs:element ref="choicesome"/>
-			</xs:sequence>
-			<xs:sequence minOccurs="0" maxOccurs="1">
-				<xs:element ref="choicenone"/>
-			</xs:sequence>
+			<xs:element ref="choice" minOccurs="2" maxOccurs="unbounded"/>
+			<xs:element ref="choiceall" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="choicesome" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element ref="choicenone"  minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
 		<xs:attribute name="scramble" type="xs:boolean" default="true"/>
 		<xs:attribute name="layout" type="layoutType" default="vertical"/>
@@ -455,12 +412,8 @@ targetNamespace="https://www.w3schools.com/schema">
 <xs:element name="choice">
 	<xs:complexType>
 		<xs:sequence>
-			<xs:sequence maxOccurs="unbounded">
-				<xs:group ref="quizinline"/>
-			</xs:sequence>
-			<xs:sequence minOccurs="0" maxOccurs="1">
-				<xs:element ref="feedback"/>
-			</xs:sequence>
+			<xs:group ref="quizinline" maxOccurs="unbounded"/>
+			<xs:element ref="feedback" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
 		<xs:attribute name="id" type="xs:ID" use="required"/>
 		<xs:attribute name="scramble" type="xs:boolean" default="true"/>
