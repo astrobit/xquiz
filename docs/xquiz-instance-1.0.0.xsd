@@ -97,7 +97,7 @@
 			<xs:group ref="xsi:questionGroup"/>
 			<xs:element ref="xs:imagedict" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
-	<xs:complexType>
+	</xs:complexType>
 </xs:element>
 
 </xs:schema>
