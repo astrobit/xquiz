@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-targetNamespace="https://www.w3schools.com/schema">
+			xmlns:xq="https://github.com/astrobit/xquiz"
+			targetNamespace="https://github.com/astrobit/xquiz">
 
 <xs:include schemaLocation="https://github.com/astrobit/xquiz/blob/master/docs/xquiz-html-1.0.0.xsd?raw=true"/>
 <xs:include schemaLocation="https://github.com/astrobit/xquiz/blob/master/docs/xquiz-bank-2.0.0.xsd?raw=true"/>
@@ -55,7 +56,7 @@ targetNamespace="https://www.w3schools.com/schema">
 		<xs:attribute name="scramble" type="xs:boolean" use="optional" default="true"/>
 		<xs:attribute name="scrambleanswers" type="xs:boolean" use="optional" default="true"/>
 		<xs:sequence>
-			<xs:group ref="quistionGroup"/>
+			<xs:group ref="questionGroup"/>
 		</xs:sequence>
 	</xs:complexType>
 </xs:element>
@@ -64,7 +65,7 @@ targetNamespace="https://www.w3schools.com/schema">
 	<xs:complexType>
 		<xs:attribute name="id" type="xs:ID" use="required"/>
 		<xs:sequence>
-			<xs:group ref="quistionGroup"/>
+			<xs:group ref="questionGroup"/>
 		</xs:sequence>
 	</xs:complexType>
 </xs:element>
