@@ -24,6 +24,8 @@ targetNamespace="https://www.w3schools.com/schema">
 	<xs:list itemType="xs:IDREF"/>
 </xs:simpleType>
 
+<xs:element name="header" type="inlineType"/>
+
 <xs:element name="qselect">
 	<xs:complexType>
 		<xs:attribute name="id" type="xs:ID" use="required"/>
@@ -39,15 +41,22 @@ targetNamespace="https://www.w3schools.com/schema">
 	</xs:complexType>
 </xs:element>
 
+<xs:group name="questionGroup">
+	<xs:choice minOccurs="1" maxOccurs="unbounded">
+		<xs:element ref="header"/>
+		<xs:element ref="section"/>
+		<xs:element ref="qref"/>
+		<xs:element ref="qselect"/>
+	</xs:choice>
+</xs:group>
+
 <xs:element name="questions">
 	<xs:complexType>
 		<xs:attribute name="scramble" type="xs:boolean" use="optional" default="true"/>
 		<xs:attribute name="scrambleanswers" type="xs:boolean" use="optional" default="true"/>
-		<xs:choice minOccurs="1" maxOccurs="unbounded">
-			<xs:element ref="section"/>
-			<xs:element ref="qref"/>
-			<xs:element ref="qselect"/>
-		</xs:choice>
+		<xs:sequence>
+			<xs:group ref="quistionGroup"/>
+		</xs:sequence>
 	</xs:complexType>
 </xs:element>
 
@@ -55,12 +64,7 @@ targetNamespace="https://www.w3schools.com/schema">
 	<xs:complexType>
 		<xs:attribute name="id" type="xs:ID" use="required"/>
 		<xs:sequence>
-			<xs:element minOccurs="0" maxOccurs="1" ref="prompt"/>
-			<xs:choice minOccurs="1" maxOccurs="unbounded">
-				<xs:element ref="qref"/>
-				<xs:element ref="qselect"/>
-				<xs:element ref="section"/>
-			</xs:choice>
+			<xs:group ref="quistionGroup"/>
 		</xs:sequence>
 	</xs:complexType>
 </xs:element>
@@ -73,18 +77,16 @@ targetNamespace="https://www.w3schools.com/schema">
 
 <xs:element name="instructions">
 	<xs:extension base="inlineType">
-		<xs:element minOccurs="0" maxOccurs="unbounded" ref="formref"/>
+		<xs:element ref="formref" minOccurs="0" maxOccurs="unbounded"/>
 	</xs:extension>
 </xs:element>
 
 
 <xs:element name="title">
 	<xs:complexType mixed="true">
-		<xs:choice minOccurs="0" maxOccurs="unbounded">
+		<xs:sqeuence minOccurs="0" maxOccurs="unbounded">
 			<xs:element ref="formref"/>
-			<xs:element ref="sub"/>
-			<xs:element ref="sup"/>
-		</xs:choice>
+		</xs:sqeuence>
 	</xs:complexType>
 </xs:element>
 
@@ -96,14 +98,10 @@ targetNamespace="https://www.w3schools.com/schema">
 				<xs:elment ref="bank"/>
 				<xs:element ref="bankref"/>
 			</xs:choice>
-			<xs:element minOccurs="0" maxOccurs="1" ref="title"/>
-			<xs:element minOccurs="0" maxOccurs="1" ref="date"/>
-			<xs:element minOccurs="0" maxOccurs="1" ref="instructions"/>
-			<xs:choice minOccurs="1" maxOccurs="unbounded">
-				<xs:element ref="section"/>
-				<xs:element ref="qref"/>
-				<xs:element ref="qselect"/>
-			</xs:choice>
+			<xs:element ref="title" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="date" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="instructions" minOccurs="0" maxOccurs="1"/>
+			<xs:element ref="questions" minOccurs="1" maxOccurs="1"/>
 		</xs:sequence>
 	</xs:complexType>
 </xs:element>
