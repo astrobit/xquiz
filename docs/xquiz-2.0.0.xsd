@@ -76,9 +76,20 @@
 	</xs:complexType>
 </xs:element>
 
+<xs:element name="page">
+	<xs:extension base="quizinlineType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="formref"/>
+		</xs:choice>
+	</xs:extension>
+</xs:element>	
+
 <xs:element name="instructions">
-	<xs:extension base="inlineType">
-		<xs:element ref="formref" minOccurs="0" maxOccurs="unbounded"/>
+	<xs:extension base="quizinlineType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element ref="page"/>
+			<xs:element ref="formref"/>
+		</xs:choice>
 	</xs:extension>
 </xs:element>
 
