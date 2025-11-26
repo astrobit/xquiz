@@ -270,6 +270,7 @@
 	<xs:choice>
 		<xs:element ref="a"/>
 		<xs:element ref="br"/>
+		<xs:element ref="pbr"/>
 		<xs:element ref="q"/>
 		<xs:element ref="span"/>
 		<xs:element ref="bdo"/>
@@ -409,6 +410,14 @@
 <!--================== The Break Element ================================-->
 
 <xs:element name="br">
+	<xs:complexType>
+		<xs:attributeGroup ref="coreattrs"/>
+	</xs:complexType>
+</xs:element>
+
+<!--================== The Page Break Element ================================-->
+
+<xs:element name="pbr">
 	<xs:complexType>
 		<xs:attributeGroup ref="coreattrs"/>
 	</xs:complexType>
