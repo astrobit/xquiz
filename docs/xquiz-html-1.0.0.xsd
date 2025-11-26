@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			xmlns:xq="https://github.com/astrobit/xquiz"
+			targetNamespace="https://github.com/astrobit/xquiz">
 
 <xs:simpleType name="ContentType">
 <!-- media type, as per [RFC2045]-->
