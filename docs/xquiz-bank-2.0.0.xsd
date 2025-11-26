@@ -166,8 +166,8 @@ targetNamespace="https://www.w3schools.com/schema">
 
 <xs:element name="percent"/>
 <xs:element name="emdash"/>
-<!--================================ Elements ============================-->
 <xs:element name="endash"/>
+<!--================================ Elements ============================-->
 
 <xs:element name="bank">
 	<xs:complexType>
