@@ -27,7 +27,7 @@
 		<xs:element ref="xq:instructornote" minOccurs="0" maxOccurs="1"/>
 		<xs:element ref="xq:prompt" minOccurs="1" maxOccurs="1"/>
 		<xs:element ref="xq:hint" minOccurs="0" maxOccurs="1"/>
-		<xs:element ref="xq:part" minOccurs="0" maxOccurs="unbounded"/>
+		<xs:element ref="xqi:part" minOccurs="0" maxOccurs="unbounded"/>
 		<xs:element ref="xq:categories" minOccurs="0" maxOccurs="1"/>
 		<xs:element ref="xq:choices" minOccurs="0" maxOccurs="1"/>
 		<xs:element ref="xq:numericanswer" minOccurs="0" maxOccurs="1"/>
@@ -65,9 +65,9 @@
 
 <xs:group name="questionGroup">
 	<xs:choice minOccurs="1" maxOccurs="unbounded">
-		<xs:element ref="header"/>
-		<xs:element ref="section"/>
-		<xs:element ref="question"/>
+		<xs:element ref="xq:header"/>
+		<xs:element ref="xqi:section"/>
+		<xs:element ref="xqi:question"/>
 	</xs:choice>
 </xs:group>
 
@@ -94,8 +94,8 @@
 			<xs:element ref="xq:title" minOccurs="0" maxOccurs="1" />
 			<xs:element ref="xq:date" minOccurs="0" maxOccurs="1" />
 			<xs:element ref="xq:instructions" minOccurs="0" maxOccurs="1" />
-			<xs:group ref="xsi:questionGroup"/>
-			<xs:element ref="xs:imagedict" minOccurs="0" maxOccurs="1"/>
+			<xs:group ref="xqi:questionGroup"/>
+			<xs:element ref="xq:imagedict" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
 	</xs:complexType>
 </xs:element>
